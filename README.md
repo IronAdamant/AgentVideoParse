@@ -34,6 +34,20 @@ CLI: `AVP_DEBUG=1` or `AVP_DEBUG_LOG=/path/to/file.log python3 -m avp export …
 
 ---
 
+## Downloads (GitHub Releases)
+
+Three separate releases — pick your OS:
+
+| OS | Release | What’s inside |
+|----|---------|----------------|
+| **macOS** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) | Double-click **AgentVideoParse.app** (no Python) |
+| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) | Unzip → **AgentVideoParse.bat** (needs Python 3 once) |
+| **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) | Unzip → `./AgentVideoParse` (needs python3-tk + GStreamer) |
+
+All releases: [github.com/IronAdamant/AgentVideoParse/releases](https://github.com/IronAdamant/AgentVideoParse/releases)
+
+---
+
 ## For non-technical users (recommended)
 
 **→ Read [START-HERE.md](START-HERE.md)** — plain-language install + double-click instructions.

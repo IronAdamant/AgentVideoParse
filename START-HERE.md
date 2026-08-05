@@ -2,7 +2,19 @@
 
 **AgentVideoParse** turns a **short phone or screen video (30 seconds or less)** into a folder of **screenshots** so an AI coding assistant can see what was on screen.
 
-You do **not** need the Terminal for normal use. You only need to do a **one-time setup** (install Python), then **double-click** to open the app.
+### Easiest: download a Release
+
+| Your computer | Download |
+|---------------|----------|
+| **Mac** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) → unzip → double-click **AgentVideoParse.app** |
+| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) → unzip → **AgentVideoParse.bat** (install Python once first) |
+| **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) → unzip → `./AgentVideoParse` |
+
+On **Mac**, the release app does **not** need Python. On Windows/Linux you install Python (and Linux media packages) **once**, then double-click / run forever.
+
+---
+
+You do **not** need the Terminal for normal Mac/Windows use after that.
 
 ---
 
