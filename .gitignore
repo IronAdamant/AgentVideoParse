@@ -9,3 +9,5 @@ ui/windows/obj/
 *.user
 *.suo
 .vs/
+
+.wikifier_staging/
