@@ -38,35 +38,40 @@ CLI: `AVP_DEBUG=1` or `AVP_DEBUG_LOG=/path/to/file.log python3 -m avp export …
 
 **→ Read [START-HERE.md](START-HERE.md)** — plain-language install + double-click instructions.
 
-Short version:
+### macOS app (recommended on Mac — no Python)
 
-1. **One-time:** install [Python 3](https://www.python.org/downloads/) (Windows: tick **Add to PATH**).
-2. Download / unzip this project from GitHub.
-3. **Double-click** to open the window:
-   - **Mac:** `AgentVideoParse.command` (right-click → Open the first time if macOS blocks it)
-   - **Windows:** `AgentVideoParse.bat`
-   - **Linux:** `./AgentVideoParse` (after `python3` + `python3-tk` + GStreamer packages)
-4. Click the big area → choose a video **≤ 30 seconds** → wait → **Reveal** the screenshot folder.
+```bash
+./scripts/build-macos-app.sh   # once after clone (needs Xcode CLT)
+open dist/AgentVideoParse.app  # or double-click in Finder
+```
 
-No terminal, no `pip install`. Everyday use is drop-or-browse in the GUI.
+Drag **`dist/AgentVideoParse.app`** to **Applications** if you like. First open: right-click → **Open** if Gatekeeper blocks it.
+
+Then: choose a video **≤ 30 seconds** → **Reveal in Finder** for the screenshots folder.
+
+### Other platforms (Python GUI for now)
+
+1. Install [Python 3](https://www.python.org/downloads/) (Windows: tick **Add to PATH**).
+2. Double-click **`AgentVideoParse.bat`** (Windows) or run **`./AgentVideoParse`** (Linux + `python3-tk` / GStreamer).
 
 ---
 
 ## Run (technical / CLI)
 
-| OS | Double-click | CLI |
-|----|----------------|-----|
-| **macOS** | `AgentVideoParse.command` | `./AgentVideoParse` or `./bin/macos/run` |
+| OS | App / double-click | CLI |
+|----|--------------------|-----|
+| **macOS** | `dist/AgentVideoParse.app` | `dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export clip.mp4` |
 | **Windows** | `AgentVideoParse.bat` | `bin\windows\run.bat` |
 | **Linux** | `./AgentVideoParse` | `./bin/linux/run` |
 
 ```bash
-./AgentVideoParse                 # GUI
-./AgentVideoParse export clip.mp4 # CLI export
-./AgentVideoParse help
+./scripts/build-macos-app.sh
+open dist/AgentVideoParse.app
+# CLI through the app binary:
+dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export fixtures/short-2s.mp4
 ```
 
-Needs **Python 3** + **tkinter** on PATH. No pip packages. OS media stacks only (see Platforms).
+Mac app: **SwiftUI + AVFoundation** only (no Python). Other OS: Python 3 + tkinter + system media stacks.
 
 ---
 

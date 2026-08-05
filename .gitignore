@@ -9,5 +9,7 @@ ui/windows/obj/
 *.user
 *.suo
 .vs/
+dist/
+macos/icon.iconset/
 
 .wikifier_staging/

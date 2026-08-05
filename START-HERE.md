@@ -21,17 +21,28 @@ You do **not** need the Terminal for normal use. You only need to do a **one-tim
 
 ## One-time setup
 
-### macOS
+### macOS (recommended: real Mac app — no Python)
+
+**If you have a built app** (`dist/AgentVideoParse.app` — see below):
+
+1. Open the project folder in Finder (or open `dist`).
+2. Double-click **`AgentVideoParse.app`**.  
+   - First time: right-click → **Open** → **Open** if macOS blocks it.  
+   - Optional: drag the app into **Applications**.
+3. In the window: click the big area → choose a video **≤ 30 seconds** → wait → **Reveal in Finder**.
+
+**Build the app once** (developers / after clone):
+
+```bash
+# From the project folder (needs Xcode Command Line Tools)
+./scripts/build-macos-app.sh
+open dist/AgentVideoParse.app
+```
+
+**Fallback (Python GUI)** — only if you prefer not to build:
 
 1. Install **Python 3** from [https://www.python.org/downloads/](https://www.python.org/downloads/)  
-   - Use the official installer.  
-   - On the install screen, leave options that install **Tcl/Tk** / GUI support enabled if shown.
-2. Download this project (GitHub **Code → Download ZIP**, then unzip).
-3. In Finder, open the unzipped folder.
-4. Double-click **`AgentVideoParse.command`**.  
-   - The first time, macOS may say it can’t open an app from the internet.  
-   - Right-click → **Open** → **Open**, or: System Settings → Privacy & Security → allow it.
-5. A window appears: choose your video and go.
+2. Double-click **`AgentVideoParse.command`**.
 
 ### Windows
 
