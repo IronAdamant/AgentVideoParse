@@ -1,8 +1,14 @@
 # AgentVideoParse
 
+<p align="center">
+  <img src="assets/logo.png" alt="AgentVideoParse logo" width="160" height="160" />
+</p>
+
 **Local, fully open-source** desktop helper for **macOS, Windows, and Linux**: drop a **short debug video (max 30 seconds)** and get an **ordered folder of frame screenshots** for AI/coding agents.
 
 > Agents read still images well but struggle to “watch” video. AgentVideoParse turns a **≤30s** clip into a small set of ordered stills. Longer videos are **rejected** (nothing is extracted).
+
+**Logo / app icon:** [`assets/logo.png`](assets/logo.png) (1024×1024 primary), also [`assets/icon.png`](assets/icon.png), [`assets/logo-512.png`](assets/logo-512.png), [`assets/logo-256.png`](assets/logo-256.png).
 
 See [PROJECT-BASIS.md](PROJECT-BASIS.md) for product origin and [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) for architecture.
 
