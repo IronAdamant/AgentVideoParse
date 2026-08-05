@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+# AgentVideoParse — clean macOS CLI entry (GUI / export / disclaimer / test).
+set -eu
+
+# Repo root is two levels above bin/macos/run
+ROOT=$(CDPATH= cd -- "$(dirname "$0")/../.." && pwd)
+cd "$ROOT"
+
+export PYTHONPATH="$ROOT/shared/core:$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "error: python3 not found on PATH." >&2
+  echo "Install Python 3 (python.org installer, Homebrew, or Xcode Command Line Tools)." >&2
+  exit 1
+fi
+
+# Pre-warm macOS AVFoundation ExtractFrames helper (best-effort; do not fail launch).
+python3 -c "
+import sys
+sys.path[:0] = [r'''$ROOT/shared/core''', r'''$ROOT''']
+try:
+    from backends.macos.backend import ensure_helper
+    ensure_helper()
+except Exception:
+    pass
+" 2>/dev/null || true
+
+cmd="${1:-}"
+
+case "$cmd" in
+  "")
+    exec python3 "$ROOT/ui/linux/app.py"
+    ;;
+  export)
+    shift
+    exec python3 -m avp export "$@"
+    ;;
+  disclaimer)
+    exec python3 -m avp disclaimer
+    ;;
+  test)
+    exec sh "$ROOT/scripts/run-tests.sh"
+    ;;
+  help|-h|--help)
+    cat <<'HELP'
+AgentVideoParse — short debug video → ordered screenshots (≤30s)
+
+Usage:
+  ./bin/macos/run                         Launch GUI (tkinter)
+  ./bin/macos/run export <video> [-o dir] Export frames + manifest
+  ./bin/macos/run disclaimer              Print permanent disclaimer
+  ./bin/macos/run test                    Run core tests + dep check
+  ./bin/macos/run help                    This help
+
+Double-click AgentVideoParse.command at the repo root, or run it from Terminal
+with the same arguments.
+HELP
+    ;;
+  *)
+    echo "Unknown command: $cmd" >&2
+    echo "Try: ./bin/macos/run help" >&2
+    exit 1
+    ;;
+esac

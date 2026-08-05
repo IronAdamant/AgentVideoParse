@@ -1,0 +1,121 @@
+#!/usr/bin/env sh
+# AgentVideoParse Linux launcher — no third-party pip deps.
+set -eu
+
+# Resolve absolute path of this script (readlink -f or portable fallback).
+_resolve_script() {
+  _target=$1
+  case "$_target" in
+    /*) ;;
+    *) _target="$(pwd)/$_target" ;;
+  esac
+  if command -v readlink >/dev/null 2>&1; then
+    _rf=$(readlink -f "$_target" 2>/dev/null || true)
+    if [ -n "$_rf" ]; then
+      printf '%s\n' "$_rf"
+      return 0
+    fi
+  fi
+  # Follow symlinks manually (portable).
+  while [ -L "$_target" ]; do
+    _link=$(readlink "$_target" 2>/dev/null || true)
+    [ -n "$_link" ] || break
+    case "$_link" in
+      /*) _target=$_link ;;
+      *) _target="$(dirname "$_target")/$_link" ;;
+    esac
+  done
+  _dir=$(CDPATH= cd -- "$(dirname "$_target")" && pwd)
+  printf '%s\n' "$_dir/$(basename "$_target")"
+}
+
+SCRIPT=$(_resolve_script "$0")
+# bin/linux/run → repo root is ../..
+ROOT=$(CDPATH= cd -- "$(dirname "$SCRIPT")/../.." && pwd)
+
+export PYTHONPATH="$ROOT/shared/core:$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "error: python3 not found. Install Python 3 (system package) and retry." >&2
+  exit 1
+fi
+
+# Best-effort build of native GStreamer helper (optional; never blocks GUI).
+_try_build_avp_gst() {
+  _helper="$ROOT/backends/linux/avp_gst"
+  _src="$ROOT/backends/linux/avp_gst.c"
+  if [ -x "$_helper" ]; then
+    return 0
+  fi
+  if [ ! -f "$_src" ]; then
+    return 0
+  fi
+  _cc=
+  if command -v gcc >/dev/null 2>&1; then
+    _cc=gcc
+  elif command -v cc >/dev/null 2>&1; then
+    _cc=cc
+  else
+    return 0
+  fi
+  command -v pkg-config >/dev/null 2>&1 || return 0
+  _flags=$(pkg-config --cflags --libs gstreamer-1.0 gstreamer-pbutils-1.0 2>/dev/null) || return 0
+  # shellcheck disable=SC2086
+  "$_cc" -O2 -o "$_helper" "$_src" $_flags >/dev/null 2>&1 || true
+}
+
+_usage() {
+  cat <<EOF
+AgentVideoParse (Linux) — short debug video → ordered screenshots (≤30s)
+
+Usage:
+  $(basename "$0")                     Launch GUI (tkinter)
+  $(basename "$0") export <video> [-o DIR]
+  $(basename "$0") disclaimer          Print permanent disclaimer
+  $(basename "$0") test                Run shared core tests + dep check
+  $(basename "$0") help                Show this help
+
+Environment:
+  PYTHONPATH is set to shared/core and the repo root.
+  Optional native helper: backends/linux/avp_gst (auto-built if gcc + pkg-config + GStreamer dev).
+
+Requires system packages only (python3, python3-tk, GStreamer). No pip deps.
+EOF
+}
+
+_try_build_avp_gst
+
+cmd=${1:-}
+case "$cmd" in
+  "" )
+    exec python3 "$ROOT/ui/linux/app.py"
+    ;;
+  help|-h|--help)
+    _usage
+    exit 0
+    ;;
+  disclaimer)
+    exec python3 -m avp disclaimer
+    ;;
+  test)
+    python3 "$ROOT/shared/core/tests/test_core.py" -v
+    if [ -f "$ROOT/scripts/check-no-third-party-deps.sh" ]; then
+      sh "$ROOT/scripts/check-no-third-party-deps.sh"
+    fi
+    exit 0
+    ;;
+  export)
+    shift
+    if [ "${1:-}" = "" ]; then
+      echo "error: export requires a video path" >&2
+      echo "usage: $(basename "$0") export <video> [-o DIR]" >&2
+      exit 1
+    fi
+    exec python3 -m avp export "$@"
+    ;;
+  *)
+    echo "error: unknown command: $cmd" >&2
+    echo "Run '$(basename "$0") help' for usage." >&2
+    exit 1
+    ;;
+esac

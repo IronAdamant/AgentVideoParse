@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+backends/macos/ExtractFrames
+backends/linux/avp_gst
+backends/windows/AvpExtract.exe
+ui/windows/bin/
+ui/windows/obj/
+*.user
+*.suo
+.vs/

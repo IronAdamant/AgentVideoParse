@@ -1,0 +1,52 @@
+<Window x:Class="AgentVideoParse.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AgentVideoParse" Height="600" Width="560" MinHeight="560" MinWidth="520">
+  <DockPanel Margin="16">
+    <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="0,8,0,0"
+               Foreground="Gray"
+               Text="Open Source · Debug only · ≤30s · macOS / Windows / Linux"/>
+    <StackPanel>
+      <TextBlock FontSize="22" FontWeight="Bold" Text="AgentVideoParse"/>
+      <TextBlock Margin="0,4,0,8" Foreground="Gray"
+                 Text="Short debug video → ordered screenshots for AI agents"/>
+
+      <GroupBox Header="Disclaimer (always visible)" Background="#FFF3CD" Margin="0,0,0,12">
+        <TextBlock TextWrapping="Wrap" Margin="8" x:Name="DisclaimerText"/>
+      </GroupBox>
+
+      <Border x:Name="DropZone" BorderBrush="Gray" BorderThickness="2" CornerRadius="8"
+              Height="140" Background="#F0F4F8" AllowDrop="True"
+              Drop="DropZone_Drop" DragOver="DropZone_DragOver" MouseLeftButtonUp="DropZone_Click">
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                   Text="Drop a video here&#x0a;(.mov, .mp4, …)&#x0a;or click to choose file"/>
+      </Border>
+
+      <DockPanel Margin="0,12,0,4">
+        <TextBlock VerticalAlignment="Center" Text="Output folder:" Margin="0,0,8,0"/>
+        <Button DockPanel.Dock="Right" Content="Change" Width="80" Click="ChangeOut_Click"/>
+        <TextBox x:Name="OutputRootBox" Margin="0,0,8,0"/>
+      </DockPanel>
+
+      <TextBlock Margin="0,4,0,8" FontSize="11" Foreground="Gray"
+                 Text="Sampling: 2 fps · max 60 stills · max 30s duration"/>
+
+      <TextBlock x:Name="StatusText" TextWrapping="Wrap" Margin="0,4,0,8" Text="Ready."/>
+
+      <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+        <CheckBox x:Name="DebugCheck" Content="Debug logging" VerticalAlignment="Center"
+                  Checked="DebugCheck_Changed" Unchecked="DebugCheck_Changed"/>
+        <Button x:Name="OpenLogBtn" Content="Open debug log" Width="120" Margin="12,0,8,0"
+                IsEnabled="False" Click="OpenLog_Click"/>
+        <Button x:Name="CopyLogBtn" Content="Copy log path" Width="110" IsEnabled="False"
+                Click="CopyLog_Click"/>
+      </StackPanel>
+
+      <StackPanel Orientation="Horizontal">
+        <Button x:Name="RevealBtn" Content="Reveal in Explorer" Width="140" Margin="0,0,8,0"
+                IsEnabled="False" Click="Reveal_Click"/>
+        <Button x:Name="CopyBtn" Content="Copy path" Width="100" IsEnabled="False" Click="Copy_Click"/>
+      </StackPanel>
+    </StackPanel>
+  </DockPanel>
+</Window>

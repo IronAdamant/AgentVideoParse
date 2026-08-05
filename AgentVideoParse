@@ -1,0 +1,53 @@
+#!/usr/bin/env sh
+# Universal POSIX launcher — picks macOS or Linux entry automatically.
+# Windows users: double-click AgentVideoParse.bat instead.
+set -eu
+
+_resolve_script() {
+  _target=$1
+  case "$_target" in
+    /*) ;;
+    *) _target="$(pwd)/$_target" ;;
+  esac
+  if command -v readlink >/dev/null 2>&1; then
+    _rf=$(readlink -f "$_target" 2>/dev/null || true)
+    if [ -n "$_rf" ]; then
+      printf '%s\n' "$_rf"
+      return 0
+    fi
+  fi
+  while [ -L "$_target" ]; do
+    _link=$(readlink "$_target" 2>/dev/null || true)
+    [ -n "$_link" ] || break
+    case "$_link" in
+      /*) _target=$_link ;;
+      *) _target="$(dirname "$_target")/$_link" ;;
+    esac
+  done
+  _dir=$(CDPATH= cd -- "$(dirname "$_target")" && pwd)
+  printf '%s\n' "$_dir/$(basename "$_target")"
+}
+
+SCRIPT=$(_resolve_script "$0")
+ROOT=$(CDPATH= cd -- "$(dirname "$SCRIPT")" && pwd)
+
+os=$(uname -s 2>/dev/null || echo unknown)
+case "$os" in
+  Darwin)
+    exec "$ROOT/bin/macos/run" "$@"
+    ;;
+  Linux|FreeBSD|OpenBSD|NetBSD)
+    exec "$ROOT/bin/linux/run" "$@"
+    ;;
+  MINGW*|MSYS*|CYGWIN*)
+    echo "On Windows use: AgentVideoParse.bat  (or bin\\windows\\run.bat)" >&2
+    if [ -f "$ROOT/bin/windows/run.bat" ]; then
+      exec cmd.exe //c "$ROOT/bin/windows/run.bat" "$@"
+    fi
+    exit 1
+    ;;
+  *)
+    echo "Unsupported OS '$os'. Try bin/linux/run or bin/macos/run." >&2
+    exit 1
+    ;;
+esac
