@@ -112,7 +112,8 @@ It runs **only on your computer**. It does **not** upload your video.
 - **No partial processing** (we do **not** extract only the first 30 seconds).
 - Reason: longer clips produce too many images and overwhelm agent debug sessions.
 
-Default sampling: **2 frames per second**, hard max **60** stills.
+Default sampling: **2 frames per second**, hard max **60** stills.  
+Stills are **agent-friendly JPEGs** (long edge ≤ **1280px**) so folders stay small enough to hand to an LLM.
 
 ---
 

@@ -144,7 +144,7 @@ enum VideoExporter {
         }
         guard let files = try? FileManager.default.contentsOfDirectory(atPath: outDir.path) else { return }
         for name in files {
-            if name.hasPrefix("frame-") && name.hasSuffix(".png")
+            if (name.hasPrefix("frame-") && (name.hasSuffix(".png") || name.hasSuffix(".jpg") || name.hasSuffix(".jpeg")))
                 || name == "MANIFEST.txt"
                 || name == "README-FOR-AGENT.txt" {
                 try? FileManager.default.removeItem(at: outDir.appendingPathComponent(name))
@@ -213,7 +213,8 @@ enum VideoExporter {
             }
             let name = ManifestWriter.frameFilename(index: i + 1)
             let dest = outDir.appendingPathComponent(name)
-            try writePNG(image: cg, to: dest)
+            let scaled = scaleIfNeeded(cg, maxLongEdge: AVPConstants.maxLongEdge)
+            try writeJPEG(image: scaled, to: dest, quality: AVPConstants.jpegQuality)
             let actualSec = CMTimeGetSeconds(actual)
             actualTimes.append(actualSec.isFinite ? actualSec : t)
             progress?(i + 1, times.count)
@@ -221,18 +222,59 @@ enum VideoExporter {
         return actualTimes
     }
 
-    private static func writePNG(image: CGImage, to url: URL) throws {
+    /// Downscale so the longer side is at most `maxLongEdge` (agent-friendly).
+    private static func scaleIfNeeded(_ image: CGImage, maxLongEdge: Int) -> CGImage {
+        let w = image.width
+        let h = image.height
+        let long = max(w, h)
+        guard long > maxLongEdge, maxLongEdge > 0 else { return image }
+        let scale = Double(maxLongEdge) / Double(long)
+        let nw = max(1, Int((Double(w) * scale).rounded()))
+        let nh = max(1, Int((Double(h) * scale).rounded()))
+        guard let ctx = CGContext(
+            data: nil,
+            width: nw,
+            height: nh,
+            bitsPerComponent: image.bitsPerComponent,
+            bytesPerRow: 0,
+            space: image.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: image.bitmapInfo.rawValue
+        ) else {
+            // Fallback: try premultiplied last RGB
+            guard let ctx2 = CGContext(
+                data: nil,
+                width: nw,
+                height: nh,
+                bitsPerComponent: 8,
+                bytesPerRow: 0,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ) else { return image }
+            ctx2.interpolationQuality = .high
+            ctx2.draw(image, in: CGRect(x: 0, y: 0, width: nw, height: nh))
+            return ctx2.makeImage() ?? image
+        }
+        ctx.interpolationQuality = .high
+        ctx.draw(image, in: CGRect(x: 0, y: 0, width: nw, height: nh))
+        return ctx.makeImage() ?? image
+    }
+
+    private static func writeJPEG(image: CGImage, to url: URL, quality: Double) throws {
         guard let dest = CGImageDestinationCreateWithURL(
             url as CFURL,
-            UTType.png.identifier as CFString,
+            UTType.jpeg.identifier as CFString,
             1,
             nil
         ) else {
             throw ExportError.writeFailed("CGImageDestination failed")
         }
-        CGImageDestinationAddImage(dest, image, nil)
+        let q = max(0.1, min(1.0, quality)) as NSNumber
+        let props: [CFString: Any] = [
+            kCGImageDestinationLossyCompressionQuality: q,
+        ]
+        CGImageDestinationAddImage(dest, image, props as CFDictionary)
         if !CGImageDestinationFinalize(dest) {
-            throw ExportError.writeFailed("PNG finalize failed")
+            throw ExportError.writeFailed("JPEG finalize failed")
         }
     }
 }

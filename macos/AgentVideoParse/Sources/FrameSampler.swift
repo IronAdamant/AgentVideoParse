@@ -17,6 +17,13 @@ enum FrameSampler {
             t += interval
             if times.count > maxFrames * 4 { break }
         }
+        // Include near-end frame if the last sample is more than ~half an interval from end
+        if let last = times.last {
+            let end = max(0.0, durationSeconds - 0.001)
+            if end - last >= interval * 0.45 {
+                times.append((end * 1_000_000).rounded() / 1_000_000)
+            }
+        }
         times = times.filter { $0 >= 0 && $0 <= durationSeconds }
         if times.isEmpty { times = [0] }
         if times.count > maxFrames {

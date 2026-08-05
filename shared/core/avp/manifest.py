@@ -6,7 +6,14 @@ import os
 from datetime import datetime, timezone
 from typing import List, Sequence, Tuple
 
-from .constants import DEFAULT_SAMPLE_FPS, DURATION_LIMIT_SECONDS, MAX_FRAMES
+from .constants import (
+    DEFAULT_SAMPLE_FPS,
+    DURATION_LIMIT_SECONDS,
+    FRAME_EXTENSION,
+    JPEG_QUALITY,
+    MAX_FRAMES,
+    MAX_LONG_EDGE,
+)
 
 
 def write_manifest(
@@ -35,6 +42,9 @@ def write_manifest(
         f"# sample_fps: {sample_fps:g}",
         f"# frame_count: {len(frame_entries)}",
         f"# max_frames: {MAX_FRAMES}",
+        f"# image_format: {FRAME_EXTENSION}",
+        f"# max_long_edge: {MAX_LONG_EDGE}",
+        f"# jpeg_quality: {JPEG_QUALITY}",
         f"# platform: {platform}",
         f"# generated_at: {generated}",
         "",
@@ -57,7 +67,8 @@ def write_agent_readme(output_directory: str) -> str:
         "(maximum 30 seconds). This folder is for AI/agent UI debugging only.\n"
         "\n"
         "Read MANIFEST.txt for index → timestamp → filename mapping.\n"
-        "Frames are named frame-0001.png, frame-0002.png, … in time order.\n"
+        f"Frames are named frame-0001.{FRAME_EXTENSION}, … in time order "
+        f"(agent-friendly JPEG, long edge ≤ {MAX_LONG_EDGE}px).\n"
     )
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(text)
@@ -65,4 +76,4 @@ def write_agent_readme(output_directory: str) -> str:
 
 
 def frame_filename(index: int) -> str:
-    return f"frame-{index:04d}.png"
+    return f"frame-{index:04d}.{FRAME_EXTENSION}"

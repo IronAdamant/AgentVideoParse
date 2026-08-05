@@ -28,17 +28,21 @@ def sample_times(
     interval = 1.0 / float(fps)
     times: List[float] = []
     t = 0.0
-    # Include t=0 and steps while t < duration; keep last sample < duration or == 0
+    # Include t=0 and steps while t < duration
     while t < duration or (not times and t == 0.0):
         if t > duration:
             break
         times.append(round(t, 6))
         t += interval
         if len(times) > max_frames * 4:
-            # safety against bad fps
             break
 
-    # Ensure we never exceed duration
+    # Near-end frame if last sample is more than ~half an interval from end
+    if times:
+        end = max(0.0, duration - 0.001)
+        if end - times[-1] >= interval * 0.45:
+            times.append(round(end, 6))
+
     times = [x for x in times if 0.0 <= x <= duration]
 
     if not times:

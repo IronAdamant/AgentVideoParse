@@ -102,7 +102,9 @@ final class ExportModel: ObservableObject {
                 await MainActor.run {
                     self.busy = false
                     self.lastOutput = result.outputDirectory.path
-                    var msg = "Wrote \(result.frameCount) screenshots (\(String(format: "%.2f", result.durationSeconds))s)\n\(result.outputDirectory.path)"
+                    let bytes = (try? Self.folderByteSize(result.outputDirectory)) ?? 0
+                    let mb = Double(bytes) / 1_048_576.0
+                    var msg = "Wrote \(result.frameCount) agent-friendly JPEGs (\(String(format: "%.2f", result.durationSeconds))s, \(String(format: "%.1f", mb)) MB)\n\(result.outputDirectory.path)"
                     if DebugLog.shared.isEnabled, let log = DebugLog.shared.logPath {
                         self.lastLogPath = log
                         msg += "\nDebug log: \(log)"
@@ -192,7 +194,7 @@ struct ContentView: View {
                 Button("Change") { model.chooseOutputRoot() }
             }
 
-            Text("Sampling: \(AVPConstants.defaultSampleFPS) fps · max \(AVPConstants.maxFrames) stills · max \(Int(AVPConstants.durationLimitSeconds))s")
+            Text("Sampling: \(AVPConstants.defaultSampleFPS) fps · max \(AVPConstants.maxFrames) stills · ≤\(Int(AVPConstants.durationLimitSeconds))s · JPEG ≤\(AVPConstants.maxLongEdge)px")
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -228,5 +230,21 @@ struct ContentView: View {
         }
         .padding(16)
         .frame(minWidth: 520, minHeight: 600)
+    }
+}
+
+extension ExportModel {
+    nonisolated static func folderByteSize(_ dir: URL) throws -> Int64 {
+        let fm = FileManager.default
+        guard let files = try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.fileSizeKey]) else {
+            return 0
+        }
+        var total: Int64 = 0
+        for f in files {
+            if let n = try? f.resourceValues(forKeys: [.fileSizeKey]).fileSize {
+                total += Int64(n)
+            }
+        }
+        return total
     }
 }

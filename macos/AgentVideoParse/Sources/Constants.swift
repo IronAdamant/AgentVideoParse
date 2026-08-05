@@ -5,6 +5,12 @@ enum AVPConstants {
     static let defaultSampleFPS: Double = 2.0
     static let maxFrames: Int = 60
 
+    /// Agent-friendly stills: smaller files for LLM vision / attachments.
+    static let maxLongEdge: Int = 1280
+    /// JPEG quality 0…1 (ImageIO).
+    static let jpegQuality: Double = 0.82
+    static let frameExtension = "jpg"
+
     static let disclaimer = """
     DISCLAIMER
 

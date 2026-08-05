@@ -25,11 +25,19 @@ Source of truth for pure policy. All platform backends and UIs must match.
 - Cap at `max_frames` by uniform thinning if needed
 - All times in `[0, duration]`; strictly increasing
 
+## Stills (agent-friendly)
+
+| Name | Value |
+|------|-------|
+| Format | JPEG (`.jpg`) |
+| Max long edge | `1280` px |
+| Quality | ~0.82 (Swift) / 82 (Pillow) |
+
 ## Manifest
 
 Plain UTF-8 text; comment headers; tab-separated body:
 
-`index`, `timestamp_seconds`, `filename` with `frame-0001.png` style names.
+`index`, `timestamp_seconds`, `filename` with `frame-0001.jpg` style names.
 
 ## Export order
 

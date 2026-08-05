@@ -4,6 +4,11 @@ DURATION_LIMIT_SECONDS = 30.0
 DEFAULT_SAMPLE_FPS = 2.0
 MAX_FRAMES = 60
 
+# Agent-friendly stills (smaller for LLM vision / attachments)
+MAX_LONG_EDGE = 1280
+JPEG_QUALITY = 82  # Pillow 1–100; ImageIO uses 0–1 in Swift
+FRAME_EXTENSION = "jpg"
+
 DISCLAIMER_TEXT = (
     "DISCLAIMER\n"
     "\n"

@@ -101,13 +101,13 @@ class TestManifest(unittest.TestCase):
                 td,
                 "/tmp/source.mov",
                 2.5,
-                [(1, 0.0, "frame-0001.png"), (2, 0.5, "frame-0002.png")],
+                [(1, 0.0, "frame-0001.jpg"), (2, 0.5, "frame-0002.jpg")],
                 platform="test",
             )
             self.assertTrue(os.path.isfile(path))
             with open(path, encoding="utf-8") as fh:
                 text = fh.read()
-            self.assertIn("frame-0001.png", text)
+            self.assertIn("frame-0001.jpg", text)
             self.assertIn("debugging", text.lower())
             self.assertIn("index\ttimestamp_seconds\tfilename", text)
 
@@ -138,8 +138,12 @@ class TestExportGateBeforeWrite(unittest.TestCase):
             self.assertEqual(ctx.exception.code, "too_long")
             # no png frames
             if os.path.isdir(out):
-                pngs = [f for f in os.listdir(out) if f.endswith(".png")]
-                self.assertEqual(pngs, [])
+                frames = [
+                    f
+                    for f in os.listdir(out)
+                    if f.startswith("frame-")
+                ]
+                self.assertEqual(frames, [])
 
     def test_accept_calls_extract_after_gate(self):
         import tempfile
@@ -157,9 +161,9 @@ class TestExportGateBeforeWrite(unittest.TestCase):
                 ShortBackend.called = True
                 for i, _t in enumerate(times, start=1):
                     path = os.path.join(output_directory, frame_filename(i))
-                    # minimal PNG header-ish bytes (not valid image but file exists)
+                    # stub file (not a real image; stills step tolerates this)
                     with open(path, "wb") as fh:
-                        fh.write(b"\x89PNG\r\n\x1a\n" + b"\x00" * 16)
+                        fh.write(b"stub-frame")
                 return list(times)
 
         with tempfile.TemporaryDirectory() as td:
@@ -170,8 +174,10 @@ class TestExportGateBeforeWrite(unittest.TestCase):
             self.assertTrue(ShortBackend.called)
             self.assertGreater(result.frame_count, 0)
             self.assertTrue(os.path.isfile(result.manifest_path))
-            pngs = sorted(f for f in os.listdir(out) if f.endswith(".png"))
-            self.assertEqual(len(pngs), result.frame_count)
+            frames = sorted(
+                f for f in os.listdir(out) if f.startswith("frame-")
+            )
+            self.assertEqual(len(frames), result.frame_count)
 
     def test_caller_supplied_out_preserves_preexisting_on_failure(self):
         """Skeptic: -o dir must not rmtree pre-existing user files on extract failure."""
@@ -207,8 +213,8 @@ class TestExportGateBeforeWrite(unittest.TestCase):
             with open(keep, encoding="utf-8") as fh:
                 self.assertEqual(fh.read(), "do-not-delete")
             # Partial product frames should be cleaned; user file remains
-            pngs = [f for f in os.listdir(out) if f.endswith(".png")]
-            self.assertEqual(pngs, [])
+            frames = [f for f in os.listdir(out) if f.startswith("frame-")]
+            self.assertEqual(frames, [])
 
     def test_fresh_run_dir_removed_on_failure(self):
         """Auto-created run directories may be rmtree'd entirely on failure."""
@@ -225,7 +231,7 @@ class TestExportGateBeforeWrite(unittest.TestCase):
             def extract_frames(self, input_path, times, output_directory, **kwargs):
                 path = os.path.join(output_directory, frame_filename(1))
                 with open(path, "wb") as fh:
-                    fh.write(b"\x89PNG\r\n\x1a\n")
+                    fh.write(b"stub")
                 raise RuntimeError("boom")
 
         with tempfile.TemporaryDirectory() as td:
@@ -243,10 +249,12 @@ class TestExportGateBeforeWrite(unittest.TestCase):
                 # Only source file should remain under td (run subdir removed)
                 names = set(os.listdir(td))
                 self.assertIn("short.mov", names)
-                # no leftover frame pngs in any subdir
+                # no leftover frame stills in any subdir
                 for root, _dirs, files in os.walk(td):
                     for f in files:
-                        self.assertFalse(f.endswith(".png"), f"leftover {f} in {root}")
+                        self.assertFalse(
+                            f.startswith("frame-"), f"leftover {f} in {root}"
+                        )
             finally:
                 exp.default_output_root = old
 

@@ -2,7 +2,7 @@ import Foundation
 
 enum ManifestWriter {
     static func frameFilename(index: Int) -> String {
-        String(format: "frame-%04d.png", index)
+        String(format: "frame-%04d.%@", index, AVPConstants.frameExtension)
     }
 
     static func writeManifest(
@@ -23,6 +23,9 @@ enum ManifestWriter {
             "# sample_fps: \(sampleFPS)",
             "# frame_count: \(entries.count)",
             "# max_frames: \(AVPConstants.maxFrames)",
+            "# image_format: \(AVPConstants.frameExtension)",
+            "# max_long_edge: \(AVPConstants.maxLongEdge)",
+            "# jpeg_quality: \(AVPConstants.jpegQuality)",
             "# platform: macos-app",
             "# generated_at: \(generated)",
             "",
@@ -45,7 +48,8 @@ enum ManifestWriter {
         (maximum 30 seconds). This folder is for AI/agent UI debugging only.
 
         Read MANIFEST.txt for index → timestamp → filename mapping.
-        Frames are named frame-0001.png, frame-0002.png, … in time order.
+        Frames are named frame-0001.jpg, frame-0002.jpg, … in time order
+        (agent-friendly JPEG, long edge ≤ \(AVPConstants.maxLongEdge)px).
         """
         try text.write(to: path, atomically: true, encoding: .utf8)
         return path

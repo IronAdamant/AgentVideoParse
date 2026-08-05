@@ -189,16 +189,36 @@ def export_video(
             actual_times = list(times)
         debug_log.log(f"extract_frames done actual_count={len(actual_times)}")
 
+        # Downscale + JPEG for agent-friendly sizes (Pillow if available)
+        from .stills import make_agent_friendly
+
+        final_names = make_agent_friendly(output_directory)
+        debug_log.log(f"agent_friendly stills count={len(final_names)}")
+
         entries = []
         for i, ts in enumerate(actual_times, start=1):
-            name = frame_filename(i)
+            name = (
+                final_names[i - 1]
+                if i - 1 < len(final_names)
+                else frame_filename(i)
+            )
             fpath = os.path.join(output_directory, name)
             if not os.path.isfile(fpath):
-                debug_log.log(f"missing frame file {name}")
-                raise ExportError(
-                    "write_failed",
-                    f"Expected frame file missing: {name}",
-                )
+                # fall back: any frame-XXXX.*
+                alt = None
+                for ext in (".jpg", ".jpeg", ".png"):
+                    cand = os.path.join(output_directory, f"frame-{i:04d}{ext}")
+                    if os.path.isfile(cand):
+                        alt = os.path.basename(cand)
+                        break
+                if alt is None:
+                    debug_log.log(f"missing frame file {name}")
+                    raise ExportError(
+                        "write_failed",
+                        f"Expected frame file missing: {name}",
+                    )
+                name = alt
+                fpath = os.path.join(output_directory, name)
             written_names.append(name)
             entries.append((i, float(ts), name))
 
@@ -258,7 +278,7 @@ def _cleanup_partial_export(
         for name in os.listdir(output_directory):
             if (
                 name.startswith("frame-")
-                and name.endswith(".png")
+                and name.lower().endswith((".png", ".jpg", ".jpeg"))
             ) or name in (
                 "MANIFEST.txt",
                 "README-FOR-AGENT.txt",
