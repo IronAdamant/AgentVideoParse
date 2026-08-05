@@ -42,9 +42,28 @@ echo.
 goto :help_and_fail
 
 :gui
-echo Launching AgentVideoParse GUI...
+echo.
+echo   AgentVideoParse
+echo   Opening the app window...
+echo   (First run may take a few seconds.)
+echo.
+%PY% -c "import tkinter" 1>nul 2>nul
+if errorlevel 1 (
+  echo Python is installed, but the GUI toolkit is missing.
+  echo Reinstall Python from https://www.python.org/downloads/
+  echo and keep "tcl/tk and IDLE" enabled. See START-HERE.md
+  echo.
+  pause
+  exit /b 1
+)
 %PY% "%ROOT%\ui\linux\app.py"
-exit /b %ERRORLEVEL%
+set "GUI_RC=%ERRORLEVEL%"
+if not "%GUI_RC%"=="0" (
+  echo.
+  echo Something went wrong. See START-HERE.md
+  pause
+)
+exit /b %GUI_RC%
 
 :export
 if "%~2"=="" (
@@ -121,9 +140,18 @@ if not errorlevel 1 (
   goto :python_ok
 )
 
-echo ERROR: Python 3 not found.
-echo Install Python 3 from https://www.python.org/ or the Microsoft Store,
-echo and ensure "py -3", "python", or "python3" is on PATH.
+echo.
+echo Python 3 was not found.
+echo.
+echo Easy fix:
+echo   1) Open https://www.python.org/downloads/
+echo   2) Install Python 3 for Windows
+echo   3) On the first screen, CHECK "Add python.exe to PATH"
+echo   4) Double-click AgentVideoParse.bat again
+echo.
+echo Full guide: open START-HERE.md in this folder.
+echo.
+pause
 exit /b 1
 
 :python_ok

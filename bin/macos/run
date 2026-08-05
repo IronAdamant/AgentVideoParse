@@ -9,8 +9,20 @@ cd "$ROOT"
 export PYTHONPATH="$ROOT/shared/core:$ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 if ! command -v python3 >/dev/null 2>&1; then
-  echo "error: python3 not found on PATH." >&2
-  echo "Install Python 3 (python.org installer, Homebrew, or Xcode Command Line Tools)." >&2
+  echo "Python 3 was not found." >&2
+  echo "" >&2
+  echo "Easy fix (no Terminal skills needed after this):" >&2
+  echo "  1) Open https://www.python.org/downloads/" >&2
+  echo "  2) Install Python 3 for Mac" >&2
+  echo "  3) Double-click AgentVideoParse.command again" >&2
+  echo "" >&2
+  echo "Details: START-HERE.md in this project folder." >&2
+  exit 1
+fi
+
+if ! python3 -c "import tkinter" 2>/dev/null; then
+  echo "Python is installed, but the GUI library (tkinter) is missing." >&2
+  echo "Reinstall Python from python.org (include Tcl/Tk). See START-HERE.md" >&2
   exit 1
 fi
 

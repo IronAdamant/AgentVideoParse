@@ -36,7 +36,22 @@ ROOT=$(CDPATH= cd -- "$(dirname "$SCRIPT")/../.." && pwd)
 export PYTHONPATH="$ROOT/shared/core:$ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 if ! command -v python3 >/dev/null 2>&1; then
-  echo "error: python3 not found. Install Python 3 (system package) and retry." >&2
+  echo "Python 3 was not found." >&2
+  echo "" >&2
+  echo "Easy fix (Ubuntu/Debian):" >&2
+  echo "  sudo apt install python3 python3-tk" >&2
+  echo "  sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base \\" >&2
+  echo "    gstreamer1.0-plugins-good gstreamer1.0-libav" >&2
+  echo "" >&2
+  echo "Then run: ./AgentVideoParse" >&2
+  echo "Full guide: open START-HERE.md" >&2
+  exit 1
+fi
+
+if ! python3 -c "import tkinter" 2>/dev/null; then
+  echo "Python is installed, but the GUI library (tkinter) is missing." >&2
+  echo "Try: sudo apt install python3-tk" >&2
+  echo "See START-HERE.md" >&2
   exit 1
 fi
 

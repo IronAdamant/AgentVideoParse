@@ -34,29 +34,39 @@ CLI: `AVP_DEBUG=1` or `AVP_DEBUG_LOG=/path/to/file.log python3 -m avp export …
 
 ---
 
-## Run (easy)
+## For non-technical users (recommended)
 
-Double-click or run from a terminal in the repo root:
+**→ Read [START-HERE.md](START-HERE.md)** — plain-language install + double-click instructions.
 
-| OS | Double-click / command | Also |
-|----|------------------------|------|
+Short version:
+
+1. **One-time:** install [Python 3](https://www.python.org/downloads/) (Windows: tick **Add to PATH**).
+2. Download / unzip this project from GitHub.
+3. **Double-click** to open the window:
+   - **Mac:** `AgentVideoParse.command` (right-click → Open the first time if macOS blocks it)
+   - **Windows:** `AgentVideoParse.bat`
+   - **Linux:** `./AgentVideoParse` (after `python3` + `python3-tk` + GStreamer packages)
+4. Click the big area → choose a video **≤ 30 seconds** → wait → **Reveal** the screenshot folder.
+
+No terminal, no `pip install`. Everyday use is drop-or-browse in the GUI.
+
+---
+
+## Run (technical / CLI)
+
+| OS | Double-click | CLI |
+|----|----------------|-----|
 | **macOS** | `AgentVideoParse.command` | `./AgentVideoParse` or `./bin/macos/run` |
-| **Windows** | `AgentVideoParse.bat` | `bin\windows\run.bat` or `bin\windows\run.ps1` |
+| **Windows** | `AgentVideoParse.bat` | `bin\windows\run.bat` |
 | **Linux** | `./AgentVideoParse` | `./bin/linux/run` |
 
 ```bash
-# GUI (default — no arguments)
-./AgentVideoParse                 # macOS / Linux
-AgentVideoParse.bat               # Windows (cmd / Explorer)
-
-# CLI
-./AgentVideoParse export path/to/short.mp4
-./AgentVideoParse disclaimer
-./AgentVideoParse test
+./AgentVideoParse                 # GUI
+./AgentVideoParse export clip.mp4 # CLI export
 ./AgentVideoParse help
 ```
 
-Needs **Python 3** + **tkinter** on PATH. No pip install. OS media stacks only (see Platforms).
+Needs **Python 3** + **tkinter** on PATH. No pip packages. OS media stacks only (see Platforms).
 
 ---
 
