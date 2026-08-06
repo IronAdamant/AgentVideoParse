@@ -66,7 +66,7 @@ Requirements (already on Windows 10/11):
 
 Usage:
   1. Double-click AgentVideoParse.exe
-  2. Drop or choose a video that is 60 seconds or shorter
+  2. Drop or choose a video that is 30 seconds or shorter
   3. Click **Reveal in Explorer** for the screenshots folder
 
 CLI (optional):

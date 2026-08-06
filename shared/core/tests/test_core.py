@@ -19,18 +19,18 @@ from avp.manifest import write_manifest
 
 
 class TestDurationGate(unittest.TestCase):
-    def test_accept_boundary_60(self):
-        d = evaluate_duration(60.0)
+    def test_accept_boundary_30(self):
+        d = evaluate_duration(30.0)
         self.assertTrue(d.accepted)
         self.assertEqual(d.status, DurationStatus.ACCEPTED)
 
     def test_accept_under(self):
-        for v in (0.0, 0.1, 1.0, 10.0, 30.0, 59.999):
+        for v in (0.0, 0.1, 1.0, 10.0, 29.999):
             with self.subTest(v=v):
                 self.assertTrue(evaluate_duration(v).accepted)
 
-    def test_reject_over_60(self):
-        for v in (60.001, 60.1, 61.0, 90.0, 120.0):
+    def test_reject_over_30(self):
+        for v in (30.001, 30.1, 31.0, 60.0, 120.0):
             with self.subTest(v=v):
                 d = evaluate_duration(v)
                 self.assertFalse(d.accepted)
@@ -47,7 +47,7 @@ class TestDurationGate(unittest.TestCase):
 
 class TestFrameSampler(unittest.TestCase):
     def test_times_ordered_within_duration(self):
-        for duration in (1.0, 10.0, 30.0, 60.0):
+        for duration in (1.0, 10.0, 30.0):
             times = sample_times(duration)
             self.assertGreaterEqual(len(times), 1)
             self.assertLessEqual(len(times), MAX_FRAMES)
@@ -63,11 +63,10 @@ class TestFrameSampler(unittest.TestCase):
         self.assertLessEqual(len(times), MAX_FRAMES)
         self.assertEqual(len(times), MAX_FRAMES)
 
-    def test_default_fps_capped_at_max_frames(self):
-        # 60s at 2 fps would be ~120 samples; hard max still MAX_FRAMES (60)
-        times = sample_times(60.0, fps=DEFAULT_SAMPLE_FPS)
+    def test_default_fps_30s_is_60_or_less(self):
+        times = sample_times(30.0, fps=DEFAULT_SAMPLE_FPS)
+        # 0..29.5 step 0.5 => ~60 samples (capped at MAX_FRAMES)
         self.assertLessEqual(len(times), MAX_FRAMES)
-        self.assertEqual(len(times), MAX_FRAMES)
         self.assertEqual(times[0], 0.0)
 
     def test_short_clip(self):
@@ -124,7 +123,7 @@ class TestExportGateBeforeWrite(unittest.TestCase):
             name = "test"
 
             def probe_duration(self, input_path: str) -> float:
-                return 90.0
+                return 45.0
 
             def extract_frames(self, *args, **kwargs):
                 raise AssertionError("extract_frames must not be called when too long")

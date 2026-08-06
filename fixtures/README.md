@@ -6,8 +6,8 @@ Synthetic solid-color videos for accept/reject tests. Generated with **system AV
 |------|----------|---------|
 | `short-2s.mp4` | ~2s | happy path |
 | `short-10s.mp4` | ~10s | multi-frame |
-| `edge-30s.mp4` | ~30s | accept (under 60s limit) |
-| `long-31s.mp4` | ~31s | accept under current 60s limit (legacy name; was reject when limit was 30s) |
+| `edge-30s.mp4` | ~30s | accept boundary |
+| `long-31s.mp4` | ~31s | hard reject |
 
 Regenerate on macOS:
 

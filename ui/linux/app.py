@@ -127,7 +127,7 @@ class App(tk.Tk):
 
         tk.Label(
             self,
-            text="Open Source · Debug only · ≤60s · macOS / Windows / Linux",
+            text="Open Source · Debug only · ≤30s · macOS / Windows / Linux",
             fg="#555",
         ).pack(side="bottom", pady=8)
 
@@ -171,7 +171,7 @@ class App(tk.Tk):
         if self._busy:
             return
         path = filedialog.askopenfilename(
-            title="Choose a short debug video (≤60s)",
+            title="Choose a short debug video (≤30s)",
             filetypes=[
                 ("Video", "*.mov *.mp4 *.m4v *.webm *.avi"),
                 ("All", "*.*"),

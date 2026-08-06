@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 
 @MainActor
 final class ExportModel: ObservableObject {
-    @Published var status: String = "Ready. Choose a short video (≤60s)."
+    @Published var status: String = "Ready. Choose a short video (≤30s)."
     @Published var lastOutput: String?
     @Published var lastLogPath: String?
     @Published var busy = false
@@ -49,7 +49,7 @@ final class ExportModel: ObservableObject {
         panel.allowedContentTypes = [.movie, .mpeg4Movie, .quickTimeMovie, .avi, .mpeg]
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        panel.message = "Choose a debug video (60 seconds or shorter)"
+        panel.message = "Choose a debug video (30 seconds or shorter)"
         if panel.runModal() == .OK, let url = panel.url {
             runExport(url: url)
         }
@@ -223,7 +223,7 @@ struct ContentView: View {
             }
 
             Spacer(minLength: 0)
-            Text("Open Source · Debug only · ≤60s · macOS app")
+            Text("Open Source · Debug only · ≤30s · macOS app")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)

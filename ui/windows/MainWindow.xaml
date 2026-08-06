@@ -6,7 +6,7 @@
   <DockPanel Margin="16">
     <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="0,8,0,0"
                Foreground="Gray"
-               Text="Open Source · Debug only · ≤60s · macOS / Windows / Linux"/>
+               Text="Open Source · Debug only · ≤30s · macOS / Windows / Linux"/>
     <StackPanel>
       <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
         <Border Width="48" Height="48" CornerRadius="10" ClipToBounds="True" Margin="0,0,12,0"
@@ -40,7 +40,7 @@
       </DockPanel>
 
       <TextBlock Margin="0,4,0,8" FontSize="11" Foreground="Gray"
-                 Text="Sampling: 2 fps · max 60 stills · max 60s duration"/>
+                 Text="Sampling: 2 fps · max 60 stills · max 30s duration"/>
 
       <TextBlock x:Name="StatusText" TextWrapping="Wrap" Margin="0,4,0,8" Text="Ready."/>
 

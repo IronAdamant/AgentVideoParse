@@ -6,7 +6,7 @@ Source of truth for pure policy. All platform backends and UIs must match.
 
 | Name | Value |
 |------|-------|
-| `DURATION_LIMIT_SECONDS` | `60.0` |
+| `DURATION_LIMIT_SECONDS` | `30.0` |
 | `DEFAULT_SAMPLE_FPS` | `2.0` |
 | `MAX_FRAMES` | `60` |
 
@@ -14,7 +14,7 @@ Source of truth for pure policy. All platform backends and UIs must match.
 
 - Input: `duration_seconds` (float)
 - If non-finite or `< 0` → `rejected_invalid`
-- If `duration_seconds > 60.0` → `rejected_too_long` (do not extract any frames)
+- If `duration_seconds > 30.0` → `rejected_too_long` (do not extract any frames)
 - Else → `accepted`
 
 ## FrameSampler

@@ -64,7 +64,7 @@ def write_agent_readme(output_directory: str) -> str:
         "======================\n"
         "\n"
         "These ordered screenshots were extracted from a short debug video "
-        "(maximum 60 seconds). This folder is for AI/agent UI debugging only.\n"
+        "(maximum 30 seconds). This folder is for AI/agent UI debugging only.\n"
         "\n"
         "Read MANIFEST.txt for index → timestamp → filename mapping.\n"
         f"Frames are named frame-0001.{FRAME_EXTENSION}, … in time order "
