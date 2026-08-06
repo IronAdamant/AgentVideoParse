@@ -41,7 +41,7 @@ Three separate releases — pick your OS:
 | OS | Release | What’s inside |
 |----|---------|----------------|
 | **macOS** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) | Double-click **AgentVideoParse.app** (no Python) |
-| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) | Unzip → **AgentVideoParse.bat** (needs Python 3 once) |
+| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python) |
 | **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) | Unzip → `./AgentVideoParse` (needs python3-tk + GStreamer) |
 
 All releases: [github.com/IronAdamant/AgentVideoParse/releases](https://github.com/IronAdamant/AgentVideoParse/releases)
@@ -63,10 +63,19 @@ Drag **`dist/AgentVideoParse.app`** to **Applications** if you like. First open:
 
 Then: choose a video **≤ 30 seconds** → **Reveal in Finder** for the screenshots folder.
 
-### Other platforms (Python GUI for now)
+### Windows app (recommended on Windows — no Python)
 
-1. Install [Python 3](https://www.python.org/downloads/) (Windows: tick **Add to PATH**).
-2. Double-click **`AgentVideoParse.bat`** (Windows) or run **`./AgentVideoParse`** (Linux + `python3-tk` / GStreamer).
+```powershell
+powershell -File .\scripts\build-windows-app.ps1   # once after clone (needs .NET SDK)
+.\dist\AgentVideoParse\AgentVideoParse.exe         # or double-click / AgentVideoParse.bat
+```
+
+Portable folder: copy `dist\AgentVideoParse\` anywhere and double-click **AgentVideoParse.exe**. No installer.
+
+### Linux (Python GUI)
+
+1. Install [Python 3](https://www.python.org/downloads/) + `python3-tk` / GStreamer.
+2. Run **`./AgentVideoParse`**.
 
 ---
 
@@ -75,7 +84,7 @@ Then: choose a video **≤ 30 seconds** → **Reveal in Finder** for the screens
 | OS | App / double-click | CLI |
 |----|--------------------|-----|
 | **macOS** | `dist/AgentVideoParse.app` | `dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export clip.mp4` |
-| **Windows** | `AgentVideoParse.bat` | `bin\windows\run.bat` |
+| **Windows** | `dist\AgentVideoParse\AgentVideoParse.exe` | `dist\AgentVideoParse\AgentVideoParse.exe export clip.mp4` |
 | **Linux** | `./AgentVideoParse` | `./bin/linux/run` |
 
 ```bash
@@ -85,7 +94,7 @@ open dist/AgentVideoParse.app
 dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export fixtures/short-2s.mp4
 ```
 
-Mac app: **SwiftUI + AVFoundation** only (no Python). Other OS: Python 3 + tkinter + system media stacks.
+Mac app: **SwiftUI + AVFoundation** only (no Python). Windows app: **WPF + MediaPlayer** only (no Python). Linux: Python 3 + tkinter + system GStreamer.
 
 ---
 
@@ -101,7 +110,7 @@ It runs **only on your computer**. It does **not** upload your video.
 | OS | Media stack (system only) | GUI |
 |----|---------------------------|-----|
 | **macOS** | AVFoundation + ImageIO | SwiftUI app (`ui/macos`) and/or portable tkinter GUI |
-| **Windows** | WPF **MediaPlayer** (inbox) + WIC PNG encode via `AvpExtract.cs` | WPF (`ui/windows`) and/or tkinter |
+| **Windows** | WPF **MediaPlayer** (inbox) + WIC JPEG encode | Native WPF app (`ui/windows` → `dist\AgentVideoParse\AgentVideoParse.exe`); optional Python/tkinter fallback |
 | **Linux** | GStreamer 1.x via `avp_gst` (seek-accurate) or **python3-gi** fallback | tkinter (`ui/linux/app.py`) |
 
 ---
@@ -213,16 +222,23 @@ PYTHONPATH=shared/core:. python3 ui/linux/app.py
 
 ### Windows
 
-1. Build `backends/windows/AvpExtract.cs` with `csc` (no NuGet) — see comments in the file.  
-2. Open `ui/windows/AgentVideoParse.csproj` in Visual Studio **or** run the portable GUI:
+**Native one-click app** (recommended — no Python):
 
-```bat
-set PYTHONPATH=shared\core;.
-python -m avp export short.mp4
-python ui\linux\app.py
+```powershell
+powershell -File .\scripts\build-windows-app.ps1
+.\dist\AgentVideoParse\AgentVideoParse.exe
+.\dist\AgentVideoParse\AgentVideoParse.exe export fixtures\short-2s.mp4
 ```
 
-Requires Windows 10/11 with Media Foundation (standard).
+Requires Windows 10/11 with Media Foundation (standard) and .NET Framework 4.7.2+ (inbox).  
+Build needs the .NET SDK once; the published folder is portable (not an installer).
+
+**Optional Python path** (shared core + `AvpExtract` helper):
+
+```bat
+bin\windows\run.bat export short.mp4
+bin\windows\run.bat
+```
 
 ### Linux
 

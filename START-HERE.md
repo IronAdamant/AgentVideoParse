@@ -7,10 +7,10 @@
 | Your computer | Download |
 |---------------|----------|
 | **Mac** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) → unzip → double-click **AgentVideoParse.app** |
-| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) → unzip → **AgentVideoParse.bat** (install Python once first) |
+| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python) |
 | **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) → unzip → `./AgentVideoParse` |
 
-On **Mac**, the release app does **not** need Python. On Windows/Linux you install Python (and Linux media packages) **once**, then double-click / run forever.
+On **Mac** and **Windows**, the release app does **not** need Python. On Linux you install Python + media packages **once**, then run forever.
 
 ---
 
@@ -56,16 +56,30 @@ open dist/AgentVideoParse.app
 1. Install **Python 3** from [https://www.python.org/downloads/](https://www.python.org/downloads/)  
 2. Double-click **`AgentVideoParse.command`**.
 
-### Windows
+### Windows (recommended: portable .exe — no install, no Python)
 
-1. Install **Python 3** from [https://www.python.org/downloads/](https://www.python.org/downloads/)  
-   - **Important:** check **“Add python.exe to PATH”** on the first installer screen.  
-   - Leave **tcl/tk and IDLE** enabled if listed.
-2. Download this project (GitHub **Code → Download ZIP**, then unzip).
-3. Open the unzipped folder.
-4. Double-click **`AgentVideoParse.bat`**.  
-   - If Windows SmartScreen warns, choose **More info** → **Run anyway** (only if you trust this project).
-5. A window appears: choose your video and go.
+**If you have a built app** (`dist\AgentVideoParse\AgentVideoParse.exe`):
+
+1. Open that folder (or double-click **`AgentVideoParse.bat`** at the project root — it launches the same app).
+2. Double-click **`AgentVideoParse.exe`**.  
+   - If Windows SmartScreen warns, choose **More info** → **Run anyway** (only if you trust this project).  
+   - No installer and no Python — copy the whole `dist\AgentVideoParse` folder anywhere and double-click.
+3. In the window: click the big area → choose a video **≤ 30 seconds** → wait → **Reveal in Explorer**.
+
+**Build the app once** (developers / after clone; needs [.NET SDK](https://dotnet.microsoft.com/download)):
+
+```powershell
+powershell -File .\scripts\build-windows-app.ps1
+# then:
+.\dist\AgentVideoParse\AgentVideoParse.exe
+# or:
+.\AgentVideoParse.bat
+```
+
+**Fallback (Python GUI)** — only if you prefer not to build the native app:
+
+1. Install **Python 3** from [https://www.python.org/downloads/](https://www.python.org/downloads/) with **Add to PATH** and **tcl/tk**.
+2. Run `bin\windows\run.bat` (or `AgentVideoParse.bat` if the native build is missing).
 
 ### Linux (simple desktop)
 
@@ -145,6 +159,7 @@ Windows:
 ```bat
 AgentVideoParse.bat
 AgentVideoParse.bat export my.mp4
+dist\AgentVideoParse\AgentVideoParse.exe export my.mp4
 ```
 
 ---

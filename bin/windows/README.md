@@ -1,46 +1,48 @@
 # Windows launchers
 
-Double-click **`AgentVideoParse.bat`** at the repo root for the portable GUI (Python + tkinter).
+## One-click app (recommended)
 
-## One-liners
-
-```bat
-REM GUI
-AgentVideoParse.bat
-bin\windows\run.bat
-
-REM CLI export
-bin\windows\run.bat export path\to\short.mp4
-bin\windows\run.bat export path\to\short.mp4 -o C:\Temp\avp-out
-
-REM Disclaimer / tests
-bin\windows\run.bat disclaimer
-bin\windows\run.bat test
-```
-
-PowerShell equivalent:
+Build once, then double-click — **no installer, no Python**:
 
 ```powershell
-.\bin\windows\run.ps1
-.\bin\windows\run.ps1 export path\to\short.mp4
-.\bin\windows\run.ps1 export path\to\short.mp4 -o C:\Temp\avp-out
-.\bin\windows\run.ps1 disclaimer
-.\bin\windows\run.ps1 test
+powershell -File .\scripts\build-windows-app.ps1
+.\dist\AgentVideoParse\AgentVideoParse.exe
 ```
 
-## Requirements
+Or from the repo root:
 
-- **Python 3** on `PATH` (`py -3`, `python`, or `python3`) with **tkinter** for the GUI
-- Windows 10/11 (Media Foundation for frame extract)
-- Optional: `.NET Framework` `csc.exe` — launchers try a best-effort build of `backends\windows\AvpExtract.exe` if missing (non-fatal for GUI)
+```bat
+AgentVideoParse.bat
+```
 
-No NuGet packages, no pip installs, no vendored FFmpeg.
+That launches `dist\AgentVideoParse\AgentVideoParse.exe` (native WPF GUI).  
+Copy the whole `dist\AgentVideoParse\` folder anywhere; double-click the `.exe`.
 
-## What the launchers do
+### CLI
 
-1. Resolve the repo root from the script location  
-2. Set `PYTHONPATH=shared\core;<repo root>`  
-3. Prefer `py -3`, then `python`, then `python3`  
-4. No args → `ui\linux\app.py` (portable tkinter GUI; works on Windows)  
-5. `export` / `disclaimer` → `python -m avp ...`  
-6. `test` → core unit tests + `scripts\check-no-third-party-deps.ps1`
+```bat
+dist\AgentVideoParse\AgentVideoParse.exe export path\to\short.mp4
+dist\AgentVideoParse\AgentVideoParse.exe export path\to\short.mp4 -o C:\Temp\avp-out
+dist\AgentVideoParse\AgentVideoParse.exe help
+```
+
+### Requirements (runtime)
+
+- Windows 10/11 with inbox **.NET Framework 4.7.2+** (already present on modern Windows)
+- Media Foundation codecs for common `.mp4` / `.mov` (system)
+
+No NuGet packages, no pip installs, no vendored FFmpeg, no setup wizard.
+
+---
+
+## Python fallback (optional)
+
+If the native app is not built, `AgentVideoParse.bat` falls back to these scripts:
+
+```bat
+bin\windows\run.bat
+bin\windows\run.bat export path\to\short.mp4
+bin\windows\run.ps1 test
+```
+
+Needs **Python 3** + tkinter on `PATH`. Media extract uses `backends\windows\AvpExtract.exe` (auto-built with `csc` when missing).

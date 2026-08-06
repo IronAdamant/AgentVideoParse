@@ -10,6 +10,7 @@ ui/windows/obj/
 *.suo
 .vs/
 dist/
+_test_out_win/
 macos/icon.iconset/
 
 .wikifier_staging/
