@@ -1,15 +1,26 @@
 <Window x:Class="AgentVideoParse.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AgentVideoParse" Height="600" Width="560" MinHeight="560" MinWidth="520">
+        Title="AgentVideoParse" Height="620" Width="560" MinHeight="580" MinWidth="520"
+        Icon="pack://application:,,,/Assets/logo-256.png">
   <DockPanel Margin="16">
     <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="0,8,0,0"
                Foreground="Gray"
                Text="Open Source · Debug only · ≤60s · macOS / Windows / Linux"/>
     <StackPanel>
-      <TextBlock FontSize="22" FontWeight="Bold" Text="AgentVideoParse"/>
-      <TextBlock Margin="0,4,0,8" Foreground="Gray"
-                 Text="Short debug video → ordered screenshots for AI agents"/>
+      <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+        <Border Width="48" Height="48" CornerRadius="10" ClipToBounds="True" Margin="0,0,12,0"
+                Background="#F0F4F8">
+          <Image Source="pack://application:,,,/Assets/logo-256.png"
+                 Stretch="UniformToFill" Width="48" Height="48"
+                 RenderOptions.BitmapScalingMode="HighQuality"/>
+        </Border>
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock FontSize="22" FontWeight="Bold" Text="AgentVideoParse"/>
+          <TextBlock Margin="0,2,0,0" Foreground="Gray"
+                     Text="Short debug video → ordered screenshots for AI agents"/>
+        </StackPanel>
+      </StackPanel>
 
       <GroupBox Header="Disclaimer (always visible)" Background="#FFF3CD" Margin="0,0,0,12">
         <TextBlock TextWrapping="Wrap" Margin="8" x:Name="DisclaimerText"/>

@@ -11,7 +11,7 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>AgentVideoParse</RootNamespace>
     <AssemblyName>AgentVideoParse</AssemblyName>
-    <ApplicationIcon Condition="Exists('..\..\assets\icon.ico')">..\..\assets\icon.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\assets\icon.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <Deterministic>true</Deterministic>
@@ -31,5 +31,11 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Embedded logo for in-window header + window icon (portable; no external file at runtime) -->
+    <Resource Include="..\..\assets\logo-256.png">
+      <Link>Assets\logo-256.png</Link>
+    </Resource>
   </ItemGroup>
 </Project>
