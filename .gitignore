@@ -13,4 +13,7 @@ dist/
 _test_out_win/
 macos/icon.iconset/
 
+# Local agent/session tooling (not part of the product)
+.chisel/
+.stele-context/
 .wikifier_staging/
