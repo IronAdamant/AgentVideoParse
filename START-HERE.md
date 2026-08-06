@@ -7,7 +7,7 @@
 | Your computer | Download |
 |---------------|----------|
 | **Mac** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) → unzip → double-click **AgentVideoParse.app** |
-| **Windows** | [v1.1.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.0-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python) |
+| **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python; ≤30s) |
 | **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) → unzip → `./AgentVideoParse` |
 
 On **Mac** and **Windows**, the release app does **not** need Python. On Linux you install Python + media packages **once**, then run forever.
