@@ -40,7 +40,7 @@ Three separate releases — pick your OS:
 
 | OS | Release | What’s inside |
 |----|---------|----------------|
-| **macOS** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) | Double-click **AgentVideoParse.app** (no Python) |
+| **macOS** (Apple Silicon) | [v1.1.1-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-macos) | Double-click **AgentVideoParse.app** (no Python; ≤30s; agent-friendly JPEGs) |
 | **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; ≤30s) |
 | **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) | Unzip → `./AgentVideoParse` (needs python3-tk + GStreamer) |
 

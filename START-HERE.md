@@ -6,7 +6,7 @@
 
 | Your computer | Download |
 |---------------|----------|
-| **Mac** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) → unzip → double-click **AgentVideoParse.app** |
+| **Mac** (Apple Silicon) | [v1.1.1-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-macos) → unzip → double-click **AgentVideoParse.app** (no Python; ≤30s) |
 | **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python; ≤30s) |
 | **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) → unzip → `./AgentVideoParse` |
 
