@@ -4,13 +4,16 @@
 
 ### Easiest: download a Release
 
+**Official support is Mac and Windows only.**
+
 | Your computer | Download |
 |---------------|----------|
 | **Mac** (Apple Silicon) | [v1.1.1-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-macos) → unzip → double-click **AgentVideoParse.app** (no Python; ≤30s) |
 | **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python; ≤30s) |
-| **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) → unzip → `./AgentVideoParse` |
 
-On **Mac** and **Windows**, the release app does **not** need Python. On Linux you install Python + media packages **once**, then run forever.
+On **Mac** and **Windows**, the release app does **not** need Python.
+
+**Linux:** not a primary product. The repo still has a Linux base under open source (MIT). If you use Linux, **fork the project** and build or adapt it for your distro — see [README.md](README.md#linux-fork-and-build-your-own). There is no maintained “double-click for every distro” app.
 
 ---
 
@@ -81,28 +84,9 @@ powershell -File .\scripts\build-windows-app.ps1
 1. Install **Python 3** from [https://www.python.org/downloads/](https://www.python.org/downloads/) with **Add to PATH** and **tcl/tk**.
 2. Run `bin\windows\run.bat` (or `AgentVideoParse.bat` if the native build is missing).
 
-### Linux (simple desktop)
+### Linux (not officially supported)
 
-1. Install Python 3 and the GUI toolkit (Ubuntu/Debian example):
-
-   ```bash
-   sudo apt install python3 python3-tk
-   ```
-
-   For video reading you also need GStreamer (once):
-
-   ```bash
-   sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base \
-     gstreamer1.0-plugins-good gstreamer1.0-libav
-   ```
-
-2. Download / clone this project and open a file manager in the folder.
-3. Double-click **`AgentVideoParse`** if your desktop allows running scripts, **or** right-click → Run as program.  
-   If nothing happens, open Terminal in the folder and run:
-
-   ```bash
-   ./AgentVideoParse
-   ```
+This start guide is for **Mac and Windows**. Linux users: fork the open-source repo and adapt the in-tree Linux base for your distro — details in [README.md](README.md#linux-fork-and-build-your-own).
 
 ---
 
@@ -127,7 +111,6 @@ Disclaimer at the top is always visible: **≤30 seconds**, **debugging only**, 
 |----------|----------------|
 | Mac | `Movies/AgentVideoParse/` |
 | Windows | `Videos\AgentVideoParse\` |
-| Linux | `Videos/AgentVideoParse/` (or `AgentVideoParse` in your home folder) |
 
 Each run creates a **new subfolder** with `frame-0001.png`, `frame-0002.png`, … and a small `MANIFEST.txt`.
 
@@ -137,11 +120,11 @@ Each run creates a **new subfolder** with `frame-0001.png`, `frame-0002.png`, �
 
 | What you see | What to try |
 |--------------|-------------|
-| “python3 not found” / window flashes and closes | Install Python from python.org and **re-open** the launcher. On Windows, reinstall with **Add to PATH**. |
-| “tkinter” / GUI errors | Reinstall Python with Tcl/Tk options. On Linux: `sudo apt install python3-tk`. |
+| “python3 not found” / window flashes and closes | You are on a Python fallback path. Prefer the native Mac app or Windows `.exe`. Or install Python from python.org with **Add to PATH** (Windows) / Tcl/Tk, then re-open. |
+| “tkinter” / GUI errors | Reinstall Python with Tcl/Tk options (fallback launchers only). Prefer the native Mac/Windows apps. |
 | Video rejected as too long | Re-record under **30 seconds**. The app will not cut a long video. |
 | Can’t read the video | Export a short **.mp4** or **.mov** from Photos/QuickTime/Phone, try again. |
-| macOS blocks `.command` | Right-click → Open, or allow in Privacy & Security. |
+| macOS blocks `.command` | Right-click → Open, or allow in Privacy & Security. Prefer **AgentVideoParse.app**. |
 | Windows SmartScreen | More info → Run anyway (if you trust the download). |
 
 ---
@@ -173,4 +156,4 @@ Everything runs **on your computer**. Your video is **not uploaded** by AgentVid
 ## Still stuck?
 
 1. Turn on **Debug logging** in the app, try once more, then **Copy log path** and open that file.  
-2. Open an issue on GitHub: [IronAdamant/AgentVideoParse](https://github.com/IronAdamant/AgentVideoParse) with the log and your OS (Mac / Windows / Linux).
+2. Open an issue on GitHub: [IronAdamant/AgentVideoParse](https://github.com/IronAdamant/AgentVideoParse) with the log and your OS (**Mac** or **Windows**). Linux is community/fork territory — see the README.

@@ -4,19 +4,22 @@
   <img src="assets/logo.png" alt="AgentVideoParse logo" width="160" height="160" />
 </p>
 
-**Local, fully open-source** desktop helper for **macOS, Windows, and Linux**: drop a **short debug video (max 30 seconds)** and get an **ordered folder of frame screenshots** for AI/coding agents.
+**Local, fully open-source** desktop helper for **macOS and Windows**: drop a **short debug video (max 30 seconds)** and get an **ordered folder of frame screenshots** for AI/coding agents.
 
 > Agents read still images well but struggle to “watch” video. AgentVideoParse turns a **≤30s** clip into a small set of ordered stills. Longer videos are **rejected** (nothing is extracted).
 
+**Supported platforms:** **macOS** and **Windows** (native apps, releases, and ongoing product focus).  
+**Linux:** not a primary product target. A **Linux base** remains in the repo (`ui/linux/`, `backends/linux/`, shared core). Because the project is **fully open source (MIT)**, Linux users can **fork this repository** and build or adapt a version for the distro they use. There is **no maintained Linux release** and **no promise** of out-of-the-box support across distros.
+
 **Logo / app icon:** [`assets/logo.png`](assets/logo.png) (1024×1024 primary), also [`assets/icon.png`](assets/icon.png), [`assets/logo-512.png`](assets/logo-512.png), [`assets/logo-256.png`](assets/logo-256.png).
 
-See [PROJECT-BASIS.md](PROJECT-BASIS.md) for product origin and [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) for architecture.
+See [PROJECT-BASIS.md](PROJECT-BASIS.md) for product origin and [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) for architecture (historical plan; product support is macOS + Windows).
 
 ---
 
-## Debug logging (all GUIs)
+## Debug logging (macOS / Windows GUIs)
 
-Every platform GUI has **Debug logging**:
+Every supported GUI has **Debug logging**:
 
 1. Turn on **Debug logging**
 2. Run an export (or reproduce a failure)
@@ -28,29 +31,29 @@ Logs go under (local only, never uploaded):
 |----|--------------------|
 | macOS | `~/Movies/AgentVideoParse/logs/` |
 | Windows | `%USERPROFILE%\Videos\AgentVideoParse\logs\` |
-| Linux | `~/Videos/AgentVideoParse/logs/` |
 
-CLI: `AVP_DEBUG=1` or `AVP_DEBUG_LOG=/path/to/file.log python3 -m avp export …`
+CLI (shared core): `AVP_DEBUG=1` or `AVP_DEBUG_LOG=/path/to/file.log python3 -m avp export …`
 
 ---
 
 ## Downloads (GitHub Releases)
 
-Three separate releases — pick your OS:
+Official releases for the **supported** platforms:
 
 | OS | Release | What’s inside |
 |----|---------|----------------|
 | **macOS** (Apple Silicon) | [v1.1.1-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-macos) | Double-click **AgentVideoParse.app** (no Python; ≤30s; agent-friendly JPEGs) |
 | **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; ≤30s) |
-| **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) | Unzip → `./AgentVideoParse` (needs python3-tk + GStreamer) |
 
 All releases: [github.com/IronAdamant/AgentVideoParse/releases](https://github.com/IronAdamant/AgentVideoParse/releases)
+
+Older Linux-tagged archives may still appear under Releases for historical reasons; they are **not** a supported product channel. Prefer forking the source if you want Linux.
 
 ---
 
 ## For non-technical users (recommended)
 
-**→ Read [START-HERE.md](START-HERE.md)** — plain-language install + double-click instructions.
+**→ Read [START-HERE.md](START-HERE.md)** — plain-language install + double-click instructions (**Mac / Windows**).
 
 ### macOS app (recommended on Mac — no Python)
 
@@ -72,11 +75,6 @@ powershell -File .\scripts\build-windows-app.ps1   # once after clone (needs .NE
 
 Portable folder: copy `dist\AgentVideoParse\` anywhere and double-click **AgentVideoParse.exe**. No installer.
 
-### Linux (Python GUI)
-
-1. Install [Python 3](https://www.python.org/downloads/) + `python3-tk` / GStreamer.
-2. Run **`./AgentVideoParse`**.
-
 ---
 
 ## Run (technical / CLI)
@@ -85,7 +83,6 @@ Portable folder: copy `dist\AgentVideoParse\` anywhere and double-click **AgentV
 |----|--------------------|-----|
 | **macOS** | `dist/AgentVideoParse.app` | `dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export clip.mp4` |
 | **Windows** | `dist\AgentVideoParse\AgentVideoParse.exe` | `dist\AgentVideoParse\AgentVideoParse.exe export clip.mp4` |
-| **Linux** | `./AgentVideoParse` | `./bin/linux/run` |
 
 ```bash
 ./scripts/build-macos-app.sh
@@ -94,7 +91,7 @@ open dist/AgentVideoParse.app
 dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export fixtures/short-2s.mp4
 ```
 
-Mac app: **SwiftUI + AVFoundation** only (no Python). Windows app: **WPF + MediaPlayer** only (no Python). Linux: Python 3 + tkinter + system GStreamer.
+Mac app: **SwiftUI + AVFoundation** only (no Python). Windows app: **WPF + MediaPlayer** only (no Python).
 
 ---
 
@@ -107,11 +104,21 @@ It runs **only on your computer**. It does **not** upload your video.
 
 ## Platforms
 
-| OS | Media stack (system only) | GUI |
-|----|---------------------------|-----|
-| **macOS** | AVFoundation + ImageIO | SwiftUI app (`ui/macos`) and/or portable tkinter GUI |
-| **Windows** | WPF **MediaPlayer** (inbox) + WIC JPEG encode | Native WPF app (`ui/windows` → `dist\AgentVideoParse\AgentVideoParse.exe`); optional Python/tkinter fallback |
-| **Linux** | GStreamer 1.x via `avp_gst` (seek-accurate) or **python3-gi** fallback | tkinter (`ui/linux/app.py`) |
+| OS | Status | Media stack (system only) | GUI |
+|----|--------|---------------------------|-----|
+| **macOS** | **Supported** | AVFoundation + ImageIO | Native SwiftUI app (`macos/`, `ui/macos`); optional Python/tkinter fallback |
+| **Windows** | **Supported** | WPF **MediaPlayer** (inbox) + WIC JPEG encode | Native WPF app (`ui/windows` → `dist\AgentVideoParse\AgentVideoParse.exe`); optional Python/tkinter fallback |
+| **Linux** | **Community / fork** — not a primary supported product | GStreamer 1.x base in-tree (`backends/linux`, optional `avp_gst`) | Base tkinter shell (`ui/linux/app.py`) — adapt for your distro |
+
+### Linux (fork and build your own)
+
+Linux is **optional**. The repo keeps a **Linux base** (shared pure-Python core + GStreamer backend sketch + tkinter GUI) so anyone can:
+
+1. **Fork** [IronAdamant/AgentVideoParse](https://github.com/IronAdamant/AgentVideoParse)  
+2. Install **your distro’s** Python/Tk and GStreamer packages  
+3. Run or package `ui/linux/app.py` / `./AgentVideoParse` for **your** environment  
+
+There is **no** commitment to multi-distro packaging, CI, or official Linux releases. Maintainers focus on **macOS and Windows**.
 
 ---
 
@@ -143,10 +150,10 @@ AgentVideoParse is for **debugging / AI agent UI review only**.
 Product code uses:
 
 - **Python 3 standard library** for shared core (duration gate, sampler, manifest, export orchestration)
-- **OS / distro system frameworks only** for decode and native UI  
+- **OS system frameworks only** for decode and native UI  
   - macOS: AVFoundation, SwiftUI  
   - Windows: Media Foundation / WPF (inbox), no NuGet `PackageReference`  
-  - Linux: GStreamer system packages (not vendored in this repo)
+  - Linux base (community): GStreamer system packages if you build the in-tree backend yourself
 
 **Not used:** vendored FFmpeg, npm/pip/cargo product packages, Electron, Qt-via-packages, analytics SDKs.
 
@@ -169,7 +176,7 @@ DISCLAIMER
 • This software is fully open source and runs locally on your computer (macOS, Windows, or Linux). It does not upload your video.
 ```
 
-The same text appears as a **permanent banner** in each platform GUI.
+The same text appears as a **permanent banner** in the **macOS and Windows** GUIs. (Wording may still mention Linux because the codebase retains a Linux base for forks.)
 
 ---
 
@@ -180,13 +187,12 @@ The same text appears as a **permanent banner** in each platform GUI.
 3. If duration **> 30s** → clear error, **zero** frame files.  
 4. If OK → writes ordered `frame-0001.png` … plus `MANIFEST.txt` and `README-FOR-AGENT.txt`.
 
-Default output roots:
+Default output roots (supported platforms):
 
 | OS | Path |
 |----|------|
 | macOS | `~/Movies/AgentVideoParse/` |
 | Windows | `%USERPROFILE%\Videos\AgentVideoParse\` |
-| Linux | `~/Videos/AgentVideoParse/` (or `~/AgentVideoParse/`) |
 
 ---
 
@@ -211,14 +217,20 @@ python3 -m avp disclaimer
 
 ### macOS
 
-1. **Backend helper** (auto-built on first use via `swiftc` + AVFoundation).  
-2. **Portable GUI** (tkinter):
+1. **Native app** (recommended):
+
+```bash
+./scripts/build-macos-app.sh
+open dist/AgentVideoParse.app
+```
+
+2. **Portable GUI** (tkinter fallback — needs Python 3 + Tk):
 
 ```bash
 PYTHONPATH=shared/core:. python3 ui/linux/app.py
 ```
 
-3. **Native SwiftUI** sources: `ui/macos/AgentVideoParseApp.swift` (system frameworks only; shells out to the same Python export path).
+3. **Native SwiftUI** sources: `macos/` and `ui/macos/` (system frameworks only).
 
 ### Windows
 
@@ -240,26 +252,9 @@ bin\windows\run.bat export short.mp4
 bin\windows\run.bat
 ```
 
-### Linux
+### Linux (community — fork / self-build)
 
-Install **system** packages (example Ubuntu/Debian):
-
-```bash
-sudo apt install python3 python3-tk \
-  gstreamer1.0-tools gstreamer1.0-plugins-base \
-  gstreamer1.0-plugins-good gstreamer1.0-libav
-```
-
-Optional C helper:
-
-```bash
-cc -O2 -o backends/linux/avp_gst backends/linux/avp_gst.c \
-  $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-pbutils-1.0)
-```
-
-```bash
-PYTHONPATH=shared/core:. python3 ui/linux/app.py
-```
+Not an official support target. Starting points in-tree: `backends/linux/`, `ui/linux/app.py`, `bin/linux/run`. Expect to install **your** distro’s Python/Tk and GStreamer packages and fix path/codec issues yourself (or with an AI assistant). See [Platforms](#platforms).
 
 ---
 
