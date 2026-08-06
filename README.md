@@ -40,9 +40,9 @@ Three separate releases — pick your OS:
 
 | OS | Release | What’s inside |
 |----|---------|----------------|
-| **macOS** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) | Double-click **AgentVideoParse.app** (no Python) |
-| **Windows** | [v1.0.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python) |
-| **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) | Unzip → `./AgentVideoParse` (needs python3-tk + GStreamer) |
+| **macOS** (Apple Silicon) | [v1.0.0-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-macos) | Double-click **AgentVideoParse.app** (no Python) — rebuild from `main` for ≤60s limit |
+| **Windows** | [v1.1.0-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.0-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; ≤60s) |
+| **Linux** | [v1.0.0-linux](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.0.0-linux) | Unzip → `./AgentVideoParse` (needs python3-tk + GStreamer) — use `main` for ≤60s |
 
 All releases: [github.com/IronAdamant/AgentVideoParse/releases](https://github.com/IronAdamant/AgentVideoParse/releases)
 

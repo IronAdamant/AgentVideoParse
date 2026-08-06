@@ -21,7 +21,7 @@
     <Product>AgentVideoParse</Product>
     <Company>AgentVideoParse</Company>
     <Description>Short debug video → ordered screenshots for AI agents (Windows)</Description>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <!-- Explicit inbox references (no packages) -->
