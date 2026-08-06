@@ -1,6 +1,6 @@
 # Start here (no coding required)
 
-**AgentVideoParse** turns a **short phone or screen video (30 seconds or less)** into a folder of **screenshots** so an AI coding assistant can see what was on screen.
+**AgentVideoParse** turns a **short phone or screen video (60 seconds or less)** into a folder of **screenshots** so an AI coding assistant can see what was on screen.
 
 ### Easiest: download a Release
 
@@ -20,14 +20,14 @@ You do **not** need the Terminal for normal Mac/Windows use after that.
 
 ## What you will do (everyday use)
 
-1. Record a short video of the bug (phone or screen recording) — **keep it under 30 seconds**.
+1. Record a short video of the bug (phone or screen recording) — **keep it under 60 seconds**.
 2. Open AgentVideoParse (double-click, see below).
 3. Click the big drop area and choose your video (or drop the file if your system supports it).
 4. Wait until it finishes.
 5. Click **Reveal in file manager** / **Reveal in Finder** / **Reveal in Explorer**.
 6. Point your AI agent at that folder of images (or attach a few frames).
 
-**If the video is longer than 30 seconds**, the app will refuse it on purpose (so the AI is not flooded with images). Record a shorter clip.
+**If the video is longer than 60 seconds**, the app will refuse it on purpose (so the AI is not flooded with images). Record a shorter clip.
 
 ---
 
@@ -41,7 +41,7 @@ You do **not** need the Terminal for normal Mac/Windows use after that.
 2. Double-click **`AgentVideoParse.app`**.  
    - First time: right-click → **Open** → **Open** if macOS blocks it.  
    - Optional: drag the app into **Applications**.
-3. In the window: click the big area → choose a video **≤ 30 seconds** → wait → **Reveal in Finder**.
+3. In the window: click the big area → choose a video **≤ 60 seconds** → wait → **Reveal in Finder**.
 
 **Build the app once** (developers / after clone):
 
@@ -64,7 +64,7 @@ open dist/AgentVideoParse.app
 2. Double-click **`AgentVideoParse.exe`**.  
    - If Windows SmartScreen warns, choose **More info** → **Run anyway** (only if you trust this project).  
    - No installer and no Python — copy the whole `dist\AgentVideoParse` folder anywhere and double-click.
-3. In the window: click the big area → choose a video **≤ 30 seconds** → wait → **Reveal in Explorer**.
+3. In the window: click the big area → choose a video **≤ 60 seconds** → wait → **Reveal in Explorer**.
 
 **Build the app once** (developers / after clone; needs [.NET SDK](https://dotnet.microsoft.com/download)):
 
@@ -117,7 +117,7 @@ powershell -File .\scripts\build-windows-app.ps1
 | **Reveal…** | Opens the folder of screenshots |
 | **Copy path** | Copies the folder path for pasting into an AI chat |
 
-Disclaimer at the top is always visible: **≤30 seconds**, **debugging only**, **open source / local**.
+Disclaimer at the top is always visible: **≤60 seconds**, **debugging only**, **open source / local**.
 
 ---
 
@@ -139,7 +139,7 @@ Each run creates a **new subfolder** with `frame-0001.png`, `frame-0002.png`, �
 |--------------|-------------|
 | “python3 not found” / window flashes and closes | Install Python from python.org and **re-open** the launcher. On Windows, reinstall with **Add to PATH**. |
 | “tkinter” / GUI errors | Reinstall Python with Tcl/Tk options. On Linux: `sudo apt install python3-tk`. |
-| Video rejected as too long | Re-record under **30 seconds**. The app will not cut a long video. |
+| Video rejected as too long | Re-record under **60 seconds**. The app will not cut a long video. |
 | Can’t read the video | Export a short **.mp4** or **.mov** from Photos/QuickTime/Phone, try again. |
 | macOS blocks `.command` | Right-click → Open, or allow in Privacy & Security. |
 | Windows SmartScreen | More info → Run anyway (if you trust the download). |

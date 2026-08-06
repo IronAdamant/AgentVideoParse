@@ -22,7 +22,7 @@ enum AVPConstants {
     static let disclaimer = """
     DISCLAIMER
 
-    • Your video file must be 30 seconds or shorter. Longer files are rejected; no frames are extracted.
+    • Your video file must be 60 seconds or shorter. Longer files are rejected; no frames are extracted.
     • AgentVideoParse is a debugging tool for AI/agent UI review only. Do not use it as a general video editor or archival converter.
     • This software is fully open source and runs locally on your computer (macOS, Windows, or Linux). It does not upload your video.
     """
@@ -297,7 +297,7 @@ struct ContentView: View {
             }
 
             Spacer()
-            Text("Open Source · Debug only · ≤30s · macOS / Windows / Linux")
+            Text("Open Source · Debug only · ≤60s · macOS / Windows / Linux")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)

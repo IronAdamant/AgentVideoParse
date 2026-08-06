@@ -55,7 +55,7 @@ case "$cmd" in
     ;;
   help|-h|--help)
     cat <<'HELP'
-AgentVideoParse — short debug video → ordered screenshots (≤30s)
+AgentVideoParse — short debug video → ordered screenshots (≤60s)
 
 Usage:
   ./bin/macos/run                         Launch GUI (tkinter)

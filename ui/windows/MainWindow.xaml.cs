@@ -88,7 +88,7 @@ namespace AgentVideoParse
             var dlg = new OpenFileDialog
             {
                 Filter = "Video|*.mov;*.mp4;*.m4v;*.avi;*.webm|All|*.*",
-                Title = "Choose a debug video (30 seconds or shorter)",
+                Title = "Choose a debug video (60 seconds or shorter)",
             };
             if (dlg.ShowDialog() == true)
                 StartExport(dlg.FileName);

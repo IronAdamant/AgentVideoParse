@@ -55,7 +55,7 @@ namespace AgentVideoParse
                 "AgentVideoParse output\n" +
                 "======================\n\n" +
                 "These ordered screenshots were extracted from a short debug video " +
-                "(maximum 30 seconds). This folder is for AI/agent UI debugging only.\n\n" +
+                "(maximum 60 seconds). This folder is for AI/agent UI debugging only.\n\n" +
                 "Read MANIFEST.txt for index → timestamp → filename mapping.\n" +
                 "Frames are named frame-0001." + AvpConstants.FrameExtension +
                 ", … in time order (agent-friendly JPEG, long edge ≤ " +

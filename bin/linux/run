@@ -81,7 +81,7 @@ _try_build_avp_gst() {
 
 _usage() {
   cat <<EOF
-AgentVideoParse (Linux) — short debug video → ordered screenshots (≤30s)
+AgentVideoParse (Linux) — short debug video → ordered screenshots (≤60s)
 
 Usage:
   $(basename "$0")                     Launch GUI (tkinter)

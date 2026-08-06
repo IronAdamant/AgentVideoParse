@@ -22,7 +22,7 @@ from avp.export import ExportError, export_video  # noqa: E402
 def main(argv: list[str] | None = None) -> int:
     debug_log.enable_from_environment()
     parser = argparse.ArgumentParser(
-        description="AgentVideoParse: short debug video → ordered screenshots (≤30s)."
+        description="AgentVideoParse: short debug video → ordered screenshots (≤60s)."
     )
     parser.add_argument(
         "command",

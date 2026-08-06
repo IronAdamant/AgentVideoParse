@@ -4,9 +4,9 @@
   <img src="assets/logo.png" alt="AgentVideoParse logo" width="160" height="160" />
 </p>
 
-**Local, fully open-source** desktop helper for **macOS, Windows, and Linux**: drop a **short debug video (max 30 seconds)** and get an **ordered folder of frame screenshots** for AI/coding agents.
+**Local, fully open-source** desktop helper for **macOS, Windows, and Linux**: drop a **short debug video (max 60 seconds)** and get an **ordered folder of frame screenshots** for AI/coding agents.
 
-> Agents read still images well but struggle to “watch” video. AgentVideoParse turns a **≤30s** clip into a small set of ordered stills. Longer videos are **rejected** (nothing is extracted).
+> Agents read still images well but struggle to “watch” video. AgentVideoParse turns a **≤60s** clip into a small set of ordered stills. Longer videos are **rejected** (nothing is extracted).
 
 **Logo / app icon:** [`assets/logo.png`](assets/logo.png) (1024×1024 primary), also [`assets/icon.png`](assets/icon.png), [`assets/logo-512.png`](assets/logo-512.png), [`assets/logo-256.png`](assets/logo-256.png).
 
@@ -61,7 +61,7 @@ open dist/AgentVideoParse.app  # or double-click in Finder
 
 Drag **`dist/AgentVideoParse.app`** to **Applications** if you like. First open: right-click → **Open** if Gatekeeper blocks it.
 
-Then: choose a video **≤ 30 seconds** → **Reveal in Finder** for the screenshots folder.
+Then: choose a video **≤ 60 seconds** → **Reveal in Finder** for the screenshots folder.
 
 ### Windows app (recommended on Windows — no Python)
 
@@ -115,13 +115,13 @@ It runs **only on your computer**. It does **not** upload your video.
 
 ---
 
-## Hard limit: 30 seconds
+## Hard limit: 60 seconds
 
-- Videos **longer than 30.0 seconds are rejected**.
-- **No partial processing** (we do **not** extract only the first 30 seconds).
+- Videos **longer than 60.0 seconds are rejected**.
+- **No partial processing** (we do **not** extract only the first 60 seconds).
 - Reason: longer clips produce too many images and overwhelm agent debug sessions.
 
-Default sampling: **2 frames per second**, hard max **60** stills.  
+Default sampling: **2 frames per second**, hard max **60** stills (a full 60s clip is thinned to at most 60 images).  
 Stills are **agent-friendly JPEGs** (long edge ≤ **1280px**) so folders stay small enough to hand to an LLM.
 
 ---
@@ -164,7 +164,7 @@ sh scripts/check-no-third-party-deps.sh
 ```
 DISCLAIMER
 
-• Your video file must be 30 seconds or shorter. Longer files are rejected; no frames are extracted.
+• Your video file must be 60 seconds or shorter. Longer files are rejected; no frames are extracted.
 • AgentVideoParse is a debugging tool for AI/agent UI review only. Do not use it as a general video editor or archival converter.
 • This software is fully open source and runs locally on your computer (macOS, Windows, or Linux). It does not upload your video.
 ```
@@ -177,7 +177,7 @@ The same text appears as a **permanent banner** in each platform GUI.
 
 1. You drop or choose a short `.mov` / `.mp4` (or similar).  
 2. The app probes duration with the **system** media stack.  
-3. If duration **> 30s** → clear error, **zero** frame files.  
+3. If duration **> 60s** → clear error, **zero** frame files.  
 4. If OK → writes ordered `frame-0001.png` … plus `MANIFEST.txt` and `README-FOR-AGENT.txt`.
 
 Default output roots:

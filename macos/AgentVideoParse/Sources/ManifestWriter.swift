@@ -45,7 +45,7 @@ enum ManifestWriter {
         ======================
 
         These ordered screenshots were extracted from a short debug video \
-        (maximum 30 seconds). This folder is for AI/agent UI debugging only.
+        (maximum 60 seconds). This folder is for AI/agent UI debugging only.
 
         Read MANIFEST.txt for index → timestamp → filename mapping.
         Frames are named frame-0001.jpg, frame-0002.jpg, … in time order

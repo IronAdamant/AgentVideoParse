@@ -1,4 +1,4 @@
-"""Duration hard gate: reject videos longer than 30.0 seconds."""
+"""Duration hard gate: reject videos longer than DURATION_LIMIT_SECONDS."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def evaluate_duration(duration_seconds: float) -> DurationDecision:
     """
     Evaluate whether a video duration is allowed.
 
-    Rejects when duration_seconds > DURATION_LIMIT_SECONDS (30.0).
+    Rejects when duration_seconds > DURATION_LIMIT_SECONDS (60.0).
     Does not truncate or partially accept long videos.
     """
     if duration_seconds is None or isinstance(duration_seconds, bool):
