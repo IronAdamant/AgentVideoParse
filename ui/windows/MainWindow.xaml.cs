@@ -11,12 +11,40 @@ namespace AgentVideoParse
     {
         private string _lastOut;
         private bool _busy;
+        private string _theme = ThemeSettings.Default;
+        private bool _themeUiReady;
 
         public MainWindow()
         {
             InitializeComponent();
+
             DisclaimerText.Text = AvpConstants.Disclaimer;
+            DropZoneLabel.Text = AvpConstants.DropZoneHint;
+            SamplingText.Text = AvpConstants.SamplingCaption;
+            StatusText.Text = AvpConstants.ReadyStatus;
+            FooterText.Text = AvpConstants.Footer;
             OutputRootBox.Text = VideoExporter.DefaultOutputRoot();
+
+            _theme = ThemeSettings.Load();
+            ThemeSettings.Apply(this, _theme);
+            _themeUiReady = true;
+            if (_theme == ThemeSettings.Light)
+                ThemeLightRadio.IsChecked = true;
+            else
+                ThemeDarkRadio.IsChecked = true;
+        }
+
+        private void Theme_Changed(object sender, RoutedEventArgs e)
+        {
+            if (!_themeUiReady) return;
+            string next = ThemeLightRadio.IsChecked == true
+                ? ThemeSettings.Light
+                : ThemeSettings.Dark;
+            if (next == _theme) return;
+            _theme = next;
+            ThemeSettings.Save(_theme);
+            ThemeSettings.Apply(this, _theme);
+            UiLog("appearance " + _theme);
         }
 
         private void UiLog(string message)
@@ -124,6 +152,7 @@ namespace AgentVideoParse
             _busy = true;
             RevealBtn.IsEnabled = false;
             CopyBtn.IsEnabled = false;
+            DropZoneLabel.Text = "Working…";
             StatusText.Text = "Processing: " + Path.GetFileName(path) + "…";
             UiLog("StartExport path=" + path);
 
@@ -152,6 +181,7 @@ namespace AgentVideoParse
                     {
                         _busy = false;
                         _lastOut = result.OutputDirectory;
+                        DropZoneLabel.Text = AvpConstants.DropZoneHint;
                         string logNote = "";
                         if (DebugCheck.IsChecked == true && !string.IsNullOrEmpty(DebugLog.LogPath))
                             logNote = "\nDebug log: " + DebugLog.LogPath;
@@ -168,6 +198,7 @@ namespace AgentVideoParse
                     Dispatcher.Invoke(() =>
                     {
                         _busy = false;
+                        DropZoneLabel.Text = AvpConstants.DropZoneHint;
                         string msg = ex.Message;
                         StatusText.Text = msg;
                         UiLog("export failed " + ex);

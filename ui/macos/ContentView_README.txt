@@ -1,10 +1,10 @@
-macOS GUI: AgentVideoParseApp.swift (SwiftUI + permanent disclaimer + drop/browse).
+macOS GUI notes
+===============
 
-Build (from repo root, developer machines with Xcode):
-  cd ui/macos
-  # Or open an Xcode project; for a quick tool-style build of the Python+tk GUI on macOS:
-  #   python3 ui/linux/app.py
-  # Native SwiftUI entry is AgentVideoParseApp.swift (system frameworks only).
+Primary product app (recommended):
+  macos/AgentVideoParse/   →  ./scripts/build-macos-app.sh
+  Output: dist/AgentVideoParse.app  (SwiftUI + AVFoundation, no Python runtime)
 
-The SwiftUI app shells out to the shipped Python export path so DurationGate /
-FrameSampler remain the single pure-core implementation.
+This folder (ui/macos/) is a legacy/alternate shell sketch that shells out to
+the Python export path. Prefer the native app under macos/ for day-to-day use
+and releases. Windows/Linux bases remain under ui/windows and ui/linux.

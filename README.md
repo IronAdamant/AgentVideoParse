@@ -11,7 +11,7 @@
 **Supported platforms:** **macOS** and **Windows** (native apps, releases, and ongoing product focus).  
 **Linux:** not a primary product target. A **Linux base** remains in the repo (`ui/linux/`, `backends/linux/`, shared core). Because the project is **fully open source (MIT)**, Linux users can **fork this repository** and build or adapt a version for the distro they use. There is **no maintained Linux release** and **no promise** of out-of-the-box support across distros.
 
-**Logo / app icon:** [`assets/logo.png`](assets/logo.png) (1024×1024 primary), also [`assets/icon.png`](assets/icon.png), [`assets/logo-512.png`](assets/logo-512.png), [`assets/logo-256.png`](assets/logo-256.png).
+**Logo / app icon:** flat transparent mark — [`assets/logo-mark.png`](assets/logo-mark.png) (native aspect) and square [`assets/logo.png`](assets/logo.png) (1024×1024), plus [`assets/icon.png`](assets/icon.png), [`assets/logo-512.png`](assets/logo-512.png), [`assets/logo-256.png`](assets/logo-256.png), [`assets/icon.ico`](assets/icon.ico).
 
 See [PROJECT-BASIS.md](PROJECT-BASIS.md) for product origin and [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) for architecture (historical plan; product support is macOS + Windows).
 
@@ -42,8 +42,8 @@ Official releases for the **supported** platforms:
 
 | OS | Release | What’s inside |
 |----|---------|----------------|
-| **macOS** (Apple Silicon) | [v1.1.1-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-macos) | Double-click **AgentVideoParse.app** (no Python; ≤30s; agent-friendly JPEGs) |
-| **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; ≤30s) |
+| **macOS** (Apple Silicon) | [v1.1.2-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-macos) | Double-click **AgentVideoParse.app** (no Python; ≤30s; dark UI default; flat logo) |
+| **Windows** | [v1.1.2-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; ≤30s; dark UI default) |
 
 All releases: [github.com/IronAdamant/AgentVideoParse/releases](https://github.com/IronAdamant/AgentVideoParse/releases)
 

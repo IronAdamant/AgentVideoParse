@@ -28,8 +28,9 @@ struct AgentVideoParseApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            // Appearance (dark default + light) is owned by ContentView via @AppStorage.
         }
-        .defaultSize(width: 560, height: 640)
+        .defaultSize(width: 560, height: 680)
         .commands {
             CommandGroup(replacing: .newItem) {}
         }

@@ -8,8 +8,8 @@
 
 | Your computer | Download |
 |---------------|----------|
-| **Mac** (Apple Silicon) | [v1.1.1-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-macos) → unzip → double-click **AgentVideoParse.app** (no Python; ≤30s) |
-| **Windows** | [v1.1.1-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.1-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python; ≤30s) |
+| **Mac** (Apple Silicon) | [v1.1.2-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-macos) → unzip → double-click **AgentVideoParse.app** (no Python; ≤30s) |
+| **Windows** | [v1.1.2-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-windows) → unzip → double-click **AgentVideoParse.exe** (no install, no Python; ≤30s) |
 
 On **Mac** and **Windows**, the release app does **not** need Python.
 

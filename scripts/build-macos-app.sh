@@ -18,9 +18,9 @@ echo "==> Building AgentVideoParse.app"
 rm -rf "$APP"
 mkdir -p "$DIST" "$APP/Contents/MacOS" "$RES"
 
-# --- App icon (.icns) from assets/logo.png ---
+# --- App icon (.icns) from assets/logo.png (flat mark on transparent square; no baked plate) ---
 if [[ -f "$LOGO" ]]; then
-  echo "==> Generating AppIcon.icns"
+  echo "==> Generating AppIcon.icns from logo.png"
   rm -rf "$ICONSET"
   mkdir -p "$ICONSET"
   sips -z 16 16 "$LOGO" --out "$ICONSET/icon_16x16.png" >/dev/null
@@ -37,6 +37,17 @@ if [[ -f "$LOGO" ]]; then
   sips -z 256 256 "$LOGO" --out "$RES/AppIcon.png" >/dev/null
 else
   echo "warning: no assets/logo.png — building without custom icon" >&2
+fi
+
+# Native-aspect mark for the in-window header (same art family as logo.png).
+MARK="$ROOT/assets/logo-mark.png"
+if [[ -f "$MARK" ]]; then
+  cp "$MARK" "$RES/LogoMark.png"
+elif [[ -f "$LOGO" ]]; then
+  cp "$LOGO" "$RES/LogoMark.png"
+  echo "warning: no assets/logo-mark.png — using logo.png for header" >&2
+else
+  echo "warning: no logo assets — GUI header will be text-only" >&2
 fi
 
 # --- Compile Swift sources ---

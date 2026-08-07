@@ -21,7 +21,7 @@
     <Product>AgentVideoParse</Product>
     <Company>AgentVideoParse</Company>
     <Description>Short debug video → ordered screenshots for AI agents (Windows)</Description>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <!-- Explicit inbox references (no packages) -->
@@ -33,9 +33,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Embedded logo for in-window header + window icon (portable; no external file at runtime) -->
+    <!-- Window/title-bar icon: full plate. In-window header: flat transparent mark. -->
     <Resource Include="..\..\assets\logo-256.png">
       <Link>Assets\logo-256.png</Link>
+    </Resource>
+    <Resource Include="..\..\assets\logo-mark.png">
+      <Link>Assets\logo-mark.png</Link>
     </Resource>
   </ItemGroup>
 </Project>

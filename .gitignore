@@ -17,3 +17,8 @@ macos/icon.iconset/
 .chisel/
 .stele-context/
 .wikifier_staging/
+.wikifier/
+file_health.json
+file_health.md
+pending_updates.md
+journal/
