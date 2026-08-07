@@ -92,6 +92,8 @@ This start guide is for **Mac and Windows**. Linux users: fork the open-source r
 
 ## Using the window (GUI)
 
+**Mac and Windows look the same** (unified product shell). Only the window chrome and “Reveal in Finder” vs “Reveal in Explorer” differ.
+
 | Control | What it does |
 |--------|----------------|
 | Big drop / click area | Pick the video file |
@@ -100,6 +102,7 @@ This start guide is for **Mac and Windows**. Linux users: fork the open-source r
 | **Open debug log** / **Copy log path** | Find that log to send to a helper |
 | **Reveal…** | Opens the folder of screenshots |
 | **Copy path** | Copies the folder path for pasting into an AI chat |
+| **Appearance** (Dark / Light) | Dark is the default; choice is remembered |
 
 Disclaimer at the top is always visible: **≤30 seconds**, **debugging only**, **open source / local**.
 
@@ -112,7 +115,7 @@ Disclaimer at the top is always visible: **≤30 seconds**, **debugging only**, 
 | Mac | `Movies/AgentVideoParse/` |
 | Windows | `Videos\AgentVideoParse\` |
 
-Each run creates a **new subfolder** with `frame-0001.png`, `frame-0002.png`, … and a small `MANIFEST.txt`.
+Each run creates a **new subfolder** with `frame-0001.jpg`, `frame-0002.jpg`, … and a small `MANIFEST.txt`.
 
 ---
 

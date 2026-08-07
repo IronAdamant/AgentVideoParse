@@ -17,6 +17,36 @@ See [PROJECT-BASIS.md](PROJECT-BASIS.md) for product origin and [IMPLEMENTATION-
 
 ---
 
+## Unified macOS & Windows (one product)
+
+From **v1.1.2**, the shipping GUIs are **visually and behaviorally aligned**. Same layout, same copy, same controls — only the native chrome differs (SwiftUI vs WPF).
+
+| Shared product surface | Notes |
+|------------------------|--------|
+| Flat logo + title + tagline | Header mark from `assets/logo-mark.png` |
+| Always-visible disclaimer | ≤30s · debug only · open source / local |
+| Drop / choose video zone | `.mov`, `.mp4`, … |
+| Output folder + Change | Defaults: Movies / Videos |
+| Sampling caption | 2 fps · max 60 stills · ≤30s · JPEG ≤1,280px |
+| Debug logging + Open / Copy log | Local logs only |
+| Reveal / Copy path | Finder or Explorer after export |
+| Appearance: Dark / Light | Dark is the product default |
+| Footer | Open Source · Debug only · ≤30s · macOS / Windows |
+
+**Core engine (same rules on both OSes):** duration gate (hard **30s** reject), frame sampling (2 fps / max 60), agent-friendly JPEG stills, `MANIFEST.txt` + `README-FOR-AGENT.txt`. Native shells reimplement those constants on system media stacks (**AVFoundation** on Mac, **Media Foundation / WPF** on Windows) so releases need **no Python**. The pure-Python path under `shared/core/avp/` remains the reference core for tests, CLI, and community/Linux forks.
+
+<p align="center">
+  <img src="assets/screenshots/macos-unified.png" alt="AgentVideoParse on macOS — unified dark UI" width="380" />
+  &nbsp;
+  <img src="assets/screenshots/windows-unified.png" alt="AgentVideoParse on Windows — unified dark UI" width="380" />
+</p>
+
+<p align="center">
+  <em>macOS (left) and Windows (right) — same product shell, native backends behind the glass.</em>
+</p>
+
+---
+
 ## Debug logging (macOS / Windows GUIs)
 
 Every supported GUI has **Debug logging**:
@@ -42,8 +72,8 @@ Official releases for the **supported** platforms:
 
 | OS | Release | What’s inside |
 |----|---------|----------------|
-| **macOS** (Apple Silicon) | [v1.1.2-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-macos) | Double-click **AgentVideoParse.app** (no Python; ≤30s; dark UI default; flat logo) |
-| **Windows** | [v1.1.2-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; ≤30s; dark UI default) |
+| **macOS** (Apple Silicon) | [v1.1.2-macos](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-macos) | Double-click **AgentVideoParse.app** (no Python; unified shell; ≤30s; dark default; flat logo) |
+| **Windows** | [v1.1.2-windows](https://github.com/IronAdamant/AgentVideoParse/releases/tag/v1.1.2-windows) | Unzip → double-click **AgentVideoParse.exe** (no install / no Python; same unified shell; ≤30s; dark default) |
 
 All releases: [github.com/IronAdamant/AgentVideoParse/releases](https://github.com/IronAdamant/AgentVideoParse/releases)
 
@@ -91,7 +121,7 @@ open dist/AgentVideoParse.app
 dist/AgentVideoParse.app/Contents/MacOS/AgentVideoParse export fixtures/short-2s.mp4
 ```
 
-Mac app: **SwiftUI + AVFoundation** only (no Python). Windows app: **WPF + MediaPlayer** only (no Python).
+Mac app: **SwiftUI + AVFoundation** only (no Python). Windows app: **WPF + MediaPlayer** only (no Python). Both follow the same core product rules (see [Unified macOS & Windows](#unified-macos--windows-one-product)).
 
 ---
 
@@ -106,9 +136,11 @@ It runs **only on your computer**. It does **not** upload your video.
 
 | OS | Status | Media stack (system only) | GUI |
 |----|--------|---------------------------|-----|
-| **macOS** | **Supported** | AVFoundation + ImageIO | Native SwiftUI app (`macos/`, `ui/macos`); optional Python/tkinter fallback |
-| **Windows** | **Supported** | WPF **MediaPlayer** (inbox) + WIC JPEG encode | Native WPF app (`ui/windows` → `dist\AgentVideoParse\AgentVideoParse.exe`); optional Python/tkinter fallback |
+| **macOS** | **Supported** (unified product) | AVFoundation + ImageIO | Native SwiftUI (`macos/`) — same shell as Windows |
+| **Windows** | **Supported** (unified product) | WPF **MediaPlayer** (inbox) + JPEG encode | Native WPF (`ui/windows` → `dist\AgentVideoParse\AgentVideoParse.exe`) — same shell as macOS |
 | **Linux** | **Community / fork** — not a primary supported product | GStreamer 1.x base in-tree (`backends/linux`, optional `avp_gst`) | Base tkinter shell (`ui/linux/app.py`) — adapt for your distro |
+
+Product constants (duration limit, fps, max frames, still policy, disclaimer) are kept in parity across native apps; see `macos/…/Constants.swift`, `ui/windows/AvpConstants.cs`, and `shared/core/avp/constants.py`.
 
 ### Linux (fork and build your own)
 
@@ -185,7 +217,7 @@ The same text appears as a **permanent banner** in the **macOS and Windows** GUI
 1. You drop or choose a short `.mov` / `.mp4` (or similar).  
 2. The app probes duration with the **system** media stack.  
 3. If duration **> 30s** → clear error, **zero** frame files.  
-4. If OK → writes ordered `frame-0001.png` … plus `MANIFEST.txt` and `README-FOR-AGENT.txt`.
+4. If OK → writes ordered `frame-0001.jpg` … plus `MANIFEST.txt` and `README-FOR-AGENT.txt`.
 
 Default output roots (supported platforms):
 
@@ -261,8 +293,8 @@ Not an official support target. Starting points in-tree: `backends/linux/`, `ui/
 ## Output layout
 
 ```
-frame-0001.png
-frame-0002.png
+frame-0001.jpg
+frame-0002.jpg
 ...
 MANIFEST.txt          # index → timestamp → filename
 README-FOR-AGENT.txt  # debug-only purpose note
@@ -273,11 +305,14 @@ README-FOR-AGENT.txt  # debug-only purpose note
 ## Repository layout
 
 ```
-shared/core/avp/     # shipped pure core + export orchestrator
-backends/macos|windows|linux/
-ui/macos|windows|linux/
-scripts/check-no-third-party-deps.*
-fixtures/            # generated short/long test videos (optional)
+shared/core/avp/     # reference pure-Python core (gate, sampler, manifest, export)
+macos/               # shipping SwiftUI + AVFoundation app (unified shell)
+ui/windows/          # shipping WPF + MediaPlayer app (unified shell)
+backends/…           # optional Python OS backends (CLI / forks)
+ui/macos|linux/      # notes + Linux community shell
+assets/              # logo + unified GUI screenshots
+scripts/             # build-macos / build-windows / dep gate / icon regen
+fixtures/            # short/long test videos (optional)
 ```
 
 ---

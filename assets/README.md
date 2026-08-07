@@ -1,5 +1,12 @@
 # Assets
 
+## Screenshots (README)
+
+| File | Description |
+|------|-------------|
+| [`screenshots/macos-unified.png`](screenshots/macos-unified.png) | Shipping macOS GUI (dark, unified shell) |
+| [`screenshots/windows-unified.png`](screenshots/windows-unified.png) | Shipping Windows GUI (dark, unified shell) |
+
 ## Logo / app icon
 
 All committed logo files are the **corrected flat mark** (play tile + stills + agent eye) on a **transparent** background. There is **no** dark squircle / rounded plate baked into the bitmaps.
